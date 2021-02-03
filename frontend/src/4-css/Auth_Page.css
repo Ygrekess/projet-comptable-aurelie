@@ -1,0 +1,113 @@
+.auth_page{
+	width: 100vw;
+	max-width: 100vw;
+	height: 100vh;
+	max-height: 100vh;
+}
+.form-container{
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.form-container::before{
+	content: '';
+	width:  2000px;
+	height: 2000px;
+	border-radius: 50%;
+	background-color: thistle;
+	transition: 1.5s;
+	position: absolute;
+	z-index: 2;
+	left: 0;
+	top: -125%;
+	pointer-events: none;
+}
+.form-container.register::before{
+	left: 40%;
+}
+.form-container.signin::before{
+	transform: translateX(-100%);
+	left: 60%;
+}
+.form-container button{
+	position: relative;
+	z-index: 3;
+}
+.form{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	z-index: 1;
+	height: 100%;
+	width: 50%;
+	transition: left 1.5s .2s, opacity 0s .3s ;
+}
+.form-container.register .form{
+	top: 0;
+	left: 0;
+}
+.form-container.signin .form{
+	top: 0;
+	left: 50vw;
+}
+.form-container.register .form.signin{
+	opacity: 0;
+	z-index: 0;
+}
+.form-container.signin .form.register{
+	opacity: 0;
+	z-index: 0;
+}
+.error-container{
+	height: 4rem;
+}
+
+@media (max-width: 990px) {
+	.form-container.register::before{
+		left: 50%;
+	}
+	.form-container.signin::before{
+		left: 50%;
+	}
+}
+
+@media (max-width: 570px) {
+	.form-container:before {
+		width: 1500px;
+		height: 1500px;
+		transform: translateX(-50%);
+		left: 30%;
+		bottom: 68%;
+		right: initial;
+		top: inherit;
+		transition: 1s ease-in-out;
+	}
+	.form-container.register::before{
+		bottom: 50%;
+		left: 50%;
+	}
+	.form-container.signin::before{
+		transform: translate(-50%, 100%);
+		bottom: 50%;
+		left: 50%;
+	}
+	.form{
+		height: 50vh;
+		width: 100%;
+		transition: top 1.5s .1s, opacity 0s .3s ;
+	}
+	.form-container.register .form{
+		top: 50vh;
+		left: 0;
+	}
+	.form-container.signin .form{
+		top: 0;
+		left: 0;
+	}
+}
