@@ -1,0 +1,27 @@
+.steps-checker{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: black;
+	border-right: 5px solid rgba(236, 230, 230, 0.349);
+	width: 12.5%;
+	height: 90%;
+}
+.steps-checker .step{
+	margin-bottom: 5rem;
+	transform: rotate(90deg);
+	color: rgba(216, 211, 211, 0.548);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.steps-checker .step.active{
+	color: rgba(216, 191, 216, 0.603);
+}
+.steps-checker .step.active svg:nth-child(3){
+	color: transparent;
+	background-color: rgba(216, 191, 216, 0.603);
+	border-color: rgba(216, 191, 216, 0.603);;
+	border-radius: 50%;
+}

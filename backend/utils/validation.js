@@ -8,6 +8,7 @@ const registerValidation = (data) => {
 				.required()
 				.messages({
 					"string.base": `Merci de saisir un nom valide.`,
+					"string.empty": `Merci de saisir un nom.`,
 					"string.min": `Votre nom doit contenir au moins 6 caractères.`,
 					"any.required": `Merci de saisir un nom.`
 				}),
@@ -16,6 +17,7 @@ const registerValidation = (data) => {
 				.email()
 				.messages({
 					"string.base": `Merci de saisir une adresse email valide.`,
+					"string.empty": `Merci de saisir votre adresse email.`,
 					"string.email": `Merci de saisir une adresse email valide.`,
 					"any.required": `Merci de saisir votre adresse email.`
 				}),
@@ -23,6 +25,7 @@ const registerValidation = (data) => {
 				.min(6)
 				.required()
 				.messages({
+					"string.empty": `Merci de saisir un mot de passe.`,
 					"string.min": `Votre mot de passe doit contenir au moins 6 caractères.`,
 					"any.required": `Merci de saisir un mot de passe.`
 				}),
@@ -38,6 +41,7 @@ const loginValidation = (data) => {
 				.required()
 				.email()
 				.messages({
+					"string.empty": `Merci de saisir votre adresse email.`,
 					"string.base": `Merci de saisir une adresse email valide.`,
 					"string.email": `Merci de saisir une adresse email valide.`,
 					"any.required": `Merci de saisir votre adresse email.`
@@ -46,6 +50,7 @@ const loginValidation = (data) => {
 				.min(6)
 				.required()
 				.messages({
+					"string.empty": `Merci de saisir votre mot de passe.`,
 					"string.min": `Votre mot de passe doit contenir au moins 6 caractères.`,
 					"any.required": `Merci de saisir votre mot de passe.`
 				}),

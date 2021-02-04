@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../2-actions/userActions';
+import LoadingSpinner from './LoadingSpinner';
+import MessageBox from './MessageBox';
 
 export default function SigninForm() {
 
@@ -9,7 +11,7 @@ export default function SigninForm() {
 	const [signinError, setSigninError] = useState('');
 
 	const userLogin = useSelector(state => state.userLogin);
-	const { loading, error } = userLogin;
+	const { loading, error, success } = userLogin;
 
 	const dispatch = useDispatch()
 
@@ -21,6 +23,10 @@ export default function SigninForm() {
 	useEffect(() => {
 		if (error) {
 			setSigninError(error)
+		}
+		if (success) {
+			setEmail('')
+			setPassword('')
 		}
 		return () => {
 		}
@@ -36,13 +42,24 @@ export default function SigninForm() {
 				<div>
 					<input placeholder='Mot de passe' value={password} onChange={(e) => setPassword(e.target.value)}/>
 				</div>
-				<div>
-					<button>Valider</button>
+				<div className='validate-btn'>
+					{
+						loading ? 
+							<LoadingSpinner />
+						:
+							<div>
+								<button>Valider</button>
+							</div>
+					}
 				</div>
-				<div className='error-container'>
+				<div className='message-container'>
 				{
 					signinError &&
-					<h6 className='danger'>{signinError}</h6>
+					<MessageBox style='danger' message={signinError}/>
+				}
+				{
+					success &&
+					<MessageBox style='success' message='Vous êtes connecté.'/>
 				}
 				</div>
 			</form>

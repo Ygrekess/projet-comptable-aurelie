@@ -33,10 +33,6 @@
 	transform: translateX(-100%);
 	left: 60%;
 }
-.form-container button{
-	position: relative;
-	z-index: 3;
-}
 .form{
 	display: flex;
 	flex-direction: column;
@@ -64,19 +60,100 @@
 	opacity: 0;
 	z-index: 0;
 }
-.error-container{
+.validate-btn{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 4rem;	
+}
+.message-container{
 	height: 4rem;
 }
-
+.btn-signin{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	z-index: 3;
+	position: absolute;
+	top: 20%;
+	right: 0;
+	transition: 1s;
+	width: 15rem;
+	height: auto;
+}
+.btn-register{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+	z-index: 3;
+	position: absolute;
+	top: 20%;
+	left: 0;
+	transition: 1s;
+	width: 15rem;
+	height: auto;
+}
+.btn-signin label, .btn-register label{
+	font-weight: 500;
+}
+.form-container.register .btn-signin{
+	right: 20%;
+}
+.form-container.signin .btn-signin{
+	right: -20%;
+}
+.form-container.register .btn-register{
+	left: -20%;
+}
+.form-container.signin .btn-register{
+	left: 20%;
+}
+.btn-signin button, .btn-register button{
+	appearance: none;
+	border: 5px solid #ffff;
+	color: #ffff;
+	padding: .5rem;
+	background-color: transparent;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 15px;
+	transition: .5s;
+	cursor: pointer;
+	width: 10rem;
+	margin-top: 1rem;
+	outline: none;
+}
+.btn-signin button:hover, .btn-register button:hover{
+	padding: .5rem;
+	background-color: transparent;
+	text-transform: uppercase;
+	font-size: 15px;
+	transform: scale(1.1);
+}
 @media (max-width: 990px) {
 	.form-container.register::before{
+		top: -150%;
 		left: 50%;
 	}
 	.form-container.signin::before{
+		top: -150%;
 		left: 50%;
 	}
+	.form-container.register .btn-signin{
+		right: 5%;
+	}
+	.form-container.signin .btn-signin{
+		right: -50%;
+	}
+	.form-container.register .btn-register{
+		left: -50%;
+	}
+	.form-container.signin .btn-register{
+		left: 5%;
+	}
 }
-
 @media (max-width: 570px) {
 	.form-container:before {
 		width: 1500px;
@@ -89,10 +166,12 @@
 		transition: 1s ease-in-out;
 	}
 	.form-container.register::before{
+		top: inherit;
 		bottom: 50%;
 		left: 50%;
 	}
 	.form-container.signin::before{
+		top: inherit;
 		transform: translate(-50%, 100%);
 		bottom: 50%;
 		left: 50%;
@@ -109,5 +188,34 @@
 	.form-container.signin .form{
 		top: 0;
 		left: 0;
+	}
+	.btn-signin{
+		top: 20%;
+		right: inherit;
+		margin: auto;
+		transition: 1s;
+	}
+	.form-container.register .btn-signin{
+		right: inherit;
+		top: 20%;
+	}
+	.form-container.signin .btn-signin{
+		right: inherit;
+		top: -20%;
+	}
+	.btn-register{
+		bottom: 20%;
+		top: inherit;
+		left: inherit;
+		margin: auto;
+		transition: 1s;
+	}
+	.form-container.register .btn-register{
+		left: inherit;
+		bottom: -20%;
+	}
+	.form-container.signin .btn-register{
+		left: inherit;
+		bottom: 20%;
 	}
 }

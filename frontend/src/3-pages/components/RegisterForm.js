@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { register } from '../../2-actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
+import MessageBox from './MessageBox';
+import LoadingSpinner from './LoadingSpinner';
 
 export default function RegisterForm({ props }) {
 
@@ -16,17 +18,18 @@ export default function RegisterForm({ props }) {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		dispatch(register(name, email, password))
+		dispatch(register(name, email, password));
 	}
 
 	useEffect(() => {
-		console.log(props)
 		if (error) {
 			setRegisterError(error)
 		}
-/* 		if (success) {
-			props.history.push('/test')
-		} */
+		if (success) {
+			setName('');
+			setEmail('');
+			setPassword('');
+		}
 		return () => {
 		}
 	}, [error, success])
@@ -44,13 +47,24 @@ export default function RegisterForm({ props }) {
 				<div>
 					<input placeholder='Mot de passe' value={password} onChange={(e) => setPassword(e.target.value)}/>
 				</div>
-				<div>
-					<button>Valider</button>
+				<div className='validate-btn'>
+					{
+						loading ? 
+							<LoadingSpinner />
+						:
+							<div>
+								<button>Valider</button>
+							</div>
+					}
 				</div>
-				<div className='error-container'>
+				<div className='message-container'>
 				{
 					registerError &&
-					<h6 className='danger'>{registerError}</h6>
+					<MessageBox style='danger' message={registerError}/>
+				}
+				{
+					success &&
+					<MessageBox style='success' message='Votre compte a été créé.'/>
 				}
 				</div>
 			</form>

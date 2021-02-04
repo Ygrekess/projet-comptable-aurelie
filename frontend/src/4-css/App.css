@@ -13,6 +13,19 @@
   color: white;
 }
 
+.loading-spinner svg{
+  color: thistle;
+  animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .danger{
   color: rgb(245, 50, 50);
 }

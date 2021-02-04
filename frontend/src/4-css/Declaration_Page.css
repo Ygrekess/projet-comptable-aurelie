@@ -1,0 +1,115 @@
+.declaration-page{
+	width: 80vw;
+	height: auto;
+	background-color: #ffff;
+	color: black;
+	border-radius: 10px;
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	min-height: 600px;
+}
+.declaration-page .arrow-back{
+	color: black;
+	cursor: pointer;
+	transition: .5s;
+}
+.declaration-page .arrow-back:hover{
+	transform: scale(1.2);
+}
+.declaration-page-content{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: flex-start;
+}
+form{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	flex-wrap: wrap;
+}
+form div{
+	display: flex;
+	width: 30%;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-around;
+	margin: 1rem 0;
+}
+form div label{
+	font-size: 20px;
+	margin-bottom: .5rem;
+}
+form div span{
+	font-size: 15px;
+}
+input{
+	padding: 1rem;
+	outline: none;
+	width: 60%;
+}
+input.error{
+	border: 1px solid red;
+}
+
+/* STEP 1 */
+/* .declaration-page{
+	height: 100%;
+	margin: 1rem;
+	color: black;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+} */
+.declaration-page .declaration-page-header{
+	height: 20%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 2rem;
+}
+.declaration-page .declaration-page-header h1{
+	text-align: left;
+	margin: 0;
+}
+.declaration-page form{
+	height: 80%;
+}
+
+.declaration-page-footer{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-end;
+	width: 100%;
+}
+.declaration-page-footer h6{
+	margin: 0;
+	font-weight: 200;
+}
+.declaration-page-footer button{
+	background-color: thistle;
+	border: none;
+	color: #ffff;
+	font-size: 25px;
+	padding: 2rem;
+	margin-left: auto;
+	outline: none;
+	cursor: pointer;
+	transition: .5s;
+	width: auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	text-transform: uppercase;
+}
+.declaration-page-footer button:hover{
+	transform: scale(1.1);
+	background-color: rgb(202, 166, 202);
+}

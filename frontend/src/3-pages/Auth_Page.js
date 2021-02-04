@@ -13,7 +13,7 @@ export default function Auth_Page(props) {
 
 	useEffect(() => {
 		if (userInfos) {
-			console.log('Auth OK');
+			props.history.push('/dashboard');
 		}
 		return () => {
 		}
@@ -23,8 +23,15 @@ export default function Auth_Page(props) {
 		<div className='auth_page'>
 			<div className={'form-container ' + form}>
 				<RegisterForm props={props} />
-				<button onClick={() => setForm('register')}>M'inscrire</button>
-				<button onClick={() => setForm('signin')}>Me connecter</button>
+						<div className='btn-signin'>
+							<label>Déjà un compte ?</label>
+							<button className='' onClick={() => setForm('signin')}>Me connecter</button>
+						</div>
+
+						<div className='btn-register'>
+							<label>Pas encore de compte ?</label>
+							<button className='' onClick={() => setForm('register')}>M'inscrire</button>
+						</div>	
 				<SigninForm props={props}/>
 			</div>
 		</div>
