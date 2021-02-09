@@ -1,12 +1,10 @@
-import React from 'react';
+import React from 'react'
 import { useForm } from "react-hook-form";
 import { IoMdArrowRoundBack } from 'react-icons/io'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Link } from 'react-router-dom';
-import '../../4-css/Declaration_Page.css'
 
-export default function Declaration_Page(props) {
+export default function ModalAddDeclaration() {
 
 	const schema = yup.object().shape({
 		loyer: yup.number().required(),
@@ -20,7 +18,7 @@ export default function Declaration_Page(props) {
 		annoncesInsertions: yup.number().required(),
 		fraisPostaux: yup.number().required(),
 		internetTelephone: yup.number().required(),
-		fraisBancaire: yup.number().required(),
+		fraisBancaires: yup.number().required(),
 		cfe: yup.number().required(),
 		receptionDeplacement: yup.number().required(),
 		petitEquipement: yup.number().required(),
@@ -32,16 +30,10 @@ export default function Declaration_Page(props) {
 
 	const onSubmit = data => console.log(data);
 
-	const timeElapsed = Date.now();
-	const today = new Date(timeElapsed);
-	
 	return (
-		<div className='declaration-page'>
-			<div className='declaration-page-header'>
-				<Link to={'#'} onClick={() => props.history.goBack()}><IoMdArrowRoundBack className='arrow-back' size={40}/></Link>
-				<h1>Charges mensuelles</h1>
-			</div>
-			<form onSubmit={handleSubmit(onSubmit)}>
+		<div className='modal-add-declaration'>
+			<form id='form-add-declaration' className='form-add-declaration' onSubmit={handleSubmit(onSubmit)}>
+				<h2>Déclaration</h2>
 				<div>
 					<label>Loyer (€)</label>
 					<input name="loyer" className={errors.loyer && 'error'} defaultValue={''} ref={register} />
@@ -99,8 +91,8 @@ export default function Declaration_Page(props) {
 				</div>
 				<div>
 					<label>Frais bancaires (€)</label>
-					<input name="fraisBancaire" className={errors.fraisBancaire && 'error'} defaultValue={''} ref={register} />
-					{ errors.fraisBancaire ? errors.fraisBancaire.type === 'typeError' ? <span className='danger'>Merci de saisir un nombre.</span> : <span className='danger'>Ce champ est requis.</span> : ''}
+					<input name="fraisBancaires" className={errors.fraisBancaires && 'error'} defaultValue={''} ref={register} />
+					{ errors.fraisBancaires ? errors.fraisBancaires.type === 'typeError' ? <span className='danger'>Merci de saisir un nombre.</span> : <span className='danger'>Ce champ est requis.</span> : ''}
 				</div>
 				<div>
 					<label>CFE (€)</label>
@@ -108,7 +100,7 @@ export default function Declaration_Page(props) {
 					{ errors.cfe ? errors.cfe.type === 'typeError' ? <span className='danger'>Merci de saisir un nombre.</span> : <span className='danger'>Ce champ est requis.</span> : ''}
 				</div>
 				<div>
-					<label>Reception/déplacement (€)</label>
+					<label>Réception/déplacement (€)</label>
 					<input name="receptionDeplacement" className={errors.receptionDeplacement && 'error'} defaultValue={''} ref={register} />
 					{ errors.receptionDeplacement ? errors.receptionDeplacement.type === 'typeError' ? <span className='danger'>Merci de saisir un nombre.</span> : <span className='danger'>Ce champ est requis.</span> : ''}
 				</div>
@@ -117,9 +109,8 @@ export default function Declaration_Page(props) {
 					<input name="petitEquipement" className={errors.petitEquipement && 'error'} defaultValue={''} ref={register} />
 					{ errors.petitEquipement ? errors.petitEquipement.type === 'typeError' ? <span className='danger'>Merci de saisir un nombre.</span> : <span className='danger'>Ce champ est requis.</span> : ''}
 				</div>
-				<div className='declaration-page-footer'>
-					<h6>{today.toLocaleDateString()}</h6>
-					<button type="submit" value=''>Valider</button>
+				<div className=''>
+					<button type="submit" form='form-add-declaration' value=''>Valider</button>
 				</div>
 			</form>
 		</div>

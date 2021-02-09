@@ -3,9 +3,7 @@ import './4-css/App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
 import axios from 'axios';
 import Auth_Page from './3-pages/Auth_Page';
-import User_Dashboard from './3-pages/user_pages/User_Dashboard';
-import Declaration_Page from './3-pages/user_pages/Declaration_Page';
-import UserInfos_Page from './3-pages/user_pages/UserInfos_Page';
+import Dashboard from './3-pages/Dashboard';
 
 function App() {
 
@@ -35,9 +33,7 @@ function App() {
     <div className="App">
         <header className="App-header">
           <Route path='/connexion' component={Auth_Page} />
-          <Route path='/dashboard' exact component={User_Dashboard} />
-          <Route path='/dashboard/moncompte' component={UserInfos_Page}/>
-          <Route path='/dashboard/declaration' component={Declaration_Page}/>
+          <Route path='/dashboard' component={Dashboard}/>
       </header>
     </div>
     </BrowserRouter>

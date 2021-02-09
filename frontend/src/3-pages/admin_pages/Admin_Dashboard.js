@@ -1,17 +1,17 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import '../../4-css/Dashboard.css'
 import { VscAccount } from 'react-icons/vsc'
 import { BsPencilSquare, BsFileText } from 'react-icons/bs'
 import { RiLineChartLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
 
-export default function User_Dashboard() {
+export default function Admin_Dashboard() {
 	return (
-		<div className='user-dashboard page'>
+		<div className='admin-dashboard page'>
 			<h1>Bonjour Youssef</h1>
 			<div className='menu-container'>
 				<div className='menu-item'>
-					<Link to='/dashboard/mon-compte'>
+					<Link to='/dashboard/admin/mon-compte'>
 						<div className='icon-title'>
 							<VscAccount size={80}/>
 							<h6>Infos compte</h6>
@@ -19,27 +19,11 @@ export default function User_Dashboard() {
 					</Link>
 				</div>
 				<div className='menu-item'>
-					<Link to='/dashboard/declaration'>
+					<Link to='/dashboard/admin/mes-poles'>
 					<div className='icon-title'>
 						<BsPencilSquare size={80}/>
-						<h6>Saisir ma déclaration</h6>
+						<h6>Mes pôles santé</h6>
 					</div>
-					</Link>
-				</div>
-				<div className='menu-item'>
-					<Link to='#'>
-						<div className='icon-title'>
-							<BsFileText size={80}/>
-							<h6>Mes déclarations</h6>
-						</div>
-					</Link>
-				</div>
-				<div className='menu-item'>
-					<Link to='#'>
-						<div className='icon-title'>
-							<RiLineChartLine size={80}/>
-							<h6>Analyse</h6>
-						</div>
 					</Link>
 				</div>
 			</div>

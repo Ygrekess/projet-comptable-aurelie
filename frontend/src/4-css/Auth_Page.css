@@ -52,6 +52,14 @@
 	top: 0;
 	left: 50vw;
 }
+.form-container.register .form div, .form-container.signin .form div{
+	width: 15rem;
+}
+.form-container.register .form div input, .form-container.signin .form div input{
+	outline: none;
+	padding: 1rem;
+	width: 10rem;
+}
 .form-container.register .form.signin{
 	opacity: 0;
 	z-index: 0;
