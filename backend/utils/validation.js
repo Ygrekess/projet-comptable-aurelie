@@ -59,4 +59,55 @@ const loginValidation = (data) => {
 	return schemaRegister.validate(data)
 }
 
-export { registerValidation, loginValidation };
+const poleValidation = (data) => {
+	const schemaRegister = Joi.object(
+		{
+			name: Joi.string()
+				.required()
+				.messages({
+					"string.empty": `Merci de saisir le nom du pôle.`,
+					"string.base": `Merci de saisir un nom valide.`,
+					"any.required": `Merci de saisir le nom du pôle.`
+				}),
+			address: Joi.string()
+				.required()
+				.messages({
+					"string.empty": `Merci de saisir une adresse.`,
+					"string.base": `Merci de saisir une adresse valide.`,
+					"any.required": `Merci de saisir une adresse.`
+				}),
+			postalCode: Joi.number()
+				.required()
+				.messages({
+					"number.empty": `Merci de saisir un code postal.`,
+					"number.base": `Merci de saisir un code postal valide.`,
+					"any.required": `Merci de saisir un code postal.`
+				}),
+			city: Joi.string()
+				.required()
+				.messages({
+					"string.empty": `Merci de saisir une ville.`,
+					"string.base": `Merci de saisir un nom de ville cohérent.`,
+					"any.required": `Merci de saisir une ville.`
+				}),
+			surfaceTotale: Joi.number()
+				.required()
+				.messages({
+					"number.empty": `Merci de saisir la surface totale du pôle.`,
+					"number.base": `Merci de saisir une surface totale cohérente.`,
+					"any.required": `Merci de saisir la surface totale du pôle.`
+				}),
+			loyerAnnuel: Joi.number()
+				.required()
+				.messages({
+					"number.empty": `Merci de saisir le loyer annuel du pôle.`,
+					"number.base": `Merci de saisir un loyer annuel cohérent.`,
+					"any.required": `Merci de saisir le loyer annuel du pôle.`
+				}),
+			loyerMensuelm2: Joi.number()
+		}
+	)
+	return schemaRegister.validate(data)
+}
+
+export { registerValidation, loginValidation, poleValidation };

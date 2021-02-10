@@ -15,9 +15,9 @@ export default function Admin_Pole_Declaration() {
 				addDeclaration && 
 				<ReactModal
 					isOpen={addDeclaration}
-					className="Modal-declaration"
+					className="Modal-add-declaration"
 					ariaHideApp={false}
-					overlayClassName="Overlay-declaration"
+					overlayClassName="Overlay-add-declaration"
 					onRequestClose={() => setAddDeclaration(!addDeclaration)}
 				>
 					<ModalAddDeclaration/>

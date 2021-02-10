@@ -72,9 +72,9 @@ const poleSanteSchema = new mongoose.Schema({
 	address: { type: String, required: true },
 	postalCode: { type: Number, required: true },
 	city: { type: String, required: true },
-	specialites: [specialiteSchema],
+/* 	specialites: [specialiteSchema],
 	chargesMensuelles: chargesMensPole,
-	surfaceTotale: { type: Number, required: true },
+ */	surfaceTotale: { type: Number, required: true },
 	loyerAnnuel: { type: Number, required: true },
 	loyerMensuelm2: { type: Number },
 	date: {
@@ -83,36 +83,6 @@ const poleSanteSchema = new mongoose.Schema({
 	}
 });
 
-const chargesMensPole = {
-	loyer: { type: Number, required: true },
-	electricite: { type: Number, required: true },
-	eau: { type: Number, required: true },
-	fournAdmin: { type: Number, required: true },
-	fournEntr: { type: Number, required: true },
-	menage: { type: Number, required: true },
-	assurance: { type: Number, required: true },
-	honoraires: { type: Number, required: true },
-	annoncesInsertions: { type: Number, required: true },
-	fraisPostaux: { type: Number, required: true },
-	internetTelephone: { type: Number, required: true },
-	fraisBancaires: { type: Number, required: true },
-	cfe: { type: Number, required: true },
-	receptionDeplacement: { type: Number, required: true },
-	fraisFonctMensuel: { type: Number, required: true },
-	petitEquipement: { type: Date, default: Date.no }
-};
-
-const specialiteSchema = {
-	name: { type: String, required: true },
-	honoraires: { type: Number, required: true },
-	nombre: { type: Number, required: true },
-	surfPropreProf: { type: Number, required: true },
-	surfCommuns: { type: Number, required: true },
-	surfPraticien: { type: Number, required: true },
-	coefSurfPraticienLoyer: { type: Number, required: true },
-	coefSurfPraticienAutresCharge: { type: Number, required: true },
-/* 	chargesMensPraticien : chargesMensPraticien
- */};
 
 const poleSanteModel = mongoose.model('poleSante', poleSanteSchema);
 export default poleSanteModel;

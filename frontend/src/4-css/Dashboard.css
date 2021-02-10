@@ -1,7 +1,7 @@
 /* User dashboard, Admin Dashboard */
 .dashboard-container{
 	width: 90vw;
-	height: auto;
+	height: 90vh;
 	background-color: #ffff;
 	margin: 1rem auto;
 	border-radius: 10px;
@@ -108,7 +108,11 @@
 .pole-item:hover, .add-pole-item:hover{
 	transform: scale(1.05);
 }
-
+.admin-pole-page{
+	width: 100%;
+	height: 90vh;
+	min-height: 90vh;
+}
 .admin-pole-page-body{
 	width: 100%;
 	height: 40rem;
@@ -123,6 +127,7 @@
 	height: 2rem;
 	padding: 0;
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
 	margin: 0;
@@ -229,19 +234,21 @@
 	transform: scale(1.05);
 }
 /* Modal */
-.Modal-declaration{
-	height: 90vh;
+.Modal-add-declaration, .Modal-update-declaration, .Modal-add-pole{
+/* 	max-height: 100vh;
+ */	height: auto;
 	width: 50vw;
 	background-color: #ffff;
 	outline: none;
 }
-.Modal-add-specialite{
-	height: 60vh;
+.Modal-add-specialite, .Modal-update-specialite{
+	max-height: 100vh;
+	height: auto;
 	width: 50vw;
 	background-color: #ffff;
 	outline: none;
 }
-.Overlay-declaration, .Overlay-add-specialite{
+.Overlay-add-declaration, .Overlay-update-declaration, .Overlay-add-specialite, .Overlay-update-specialite, .Overlay-add-pole{
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
@@ -251,14 +258,20 @@
 	justify-content: center;
 	background-color: rgba(94, 90, 89, 0.603);
 }
-.modal-add-declaration, .modal-add-specialite{
+.modal-add-declaration, .modal-update-declaration, .modal-add-specialite, .modal-update-specialite, .modal-add-pole{
 	height: 100%;
-	width: auto;
+	width: 100%;
 	background-color: #ffff;
 	padding: .5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
-.form-add-declaration, .form-add-specialite{
+.form-add-declaration, .form-update-declaration, .form-add-specialite, .form-update-specialite, .form-add-pole{
 	width: 100%;
+	max-height: 100vh;
+	overflow-y: scroll;
 	height: 100%;
 	min-height: 30rem;
 	display: flex;
@@ -266,21 +279,24 @@
 	align-items: center;
 	justify-content: space-around;
 }
-.form-add-declaration h2, .form-add-specialite h2{
+.form-add-declaration::-webkit-scrollbar, .form-update-declaration::-webkit-scrollbar, .form-add-specialite::-webkit-scrollbar, .form-update-specialite::-webkit-scrollbar, .form-add-pole::-webkit-scrollbar{
+	display: none;
+}
+.form-add-declaration h2, .form-update-declaration h2, .form-add-specialite h2, .form-update-specialite h2, .form-add-pole h2{
 	width: 100%;
 }
-.form-add-declaration div, .form-add-specialite div{
+.form-add-declaration div, .form-update-declaration div, .form-add-specialite div, .form-update-specialite div, .form-add-pole div{
 	display: flex;
 	flex-direction: column;
 	width: 40%;
 	margin: .5rem auto;
 }
-.form-add-declaration div input, .form-add-specialite div input{
+.form-add-declaration div input, .form-update-declaration div input, .form-add-specialite div input, .form-update-specialite div input, .form-add-pole div input{
 	height: 2rem;
 	outline: none;
 	margin-top: .5rem;
 }
-.form-add-declaration div button, .form-add-specialite div button{
+.form-add-declaration div button, .form-update-declaration div button, .form-add-specialite div button, .form-update-specialite div button, .form-add-pole div button{
 	align-self: flex-end;
 	width: 100%;
 	height: 3rem;
@@ -292,7 +308,7 @@
 	font-size: 20px;
 	transition: .5s;
 }
-.form-add-declaration div button:hover, .form-add-specialite div button:hover{
+.form-add-declaration div button:hover, .form-update-declaration div button:hover, .form-add-specialite div button:hover, .form-update-specialite div button:hover, .form-add-pole div button:hover{
 	background-color: rgb(194, 54, 3);
 	transform: scale(1.05);
 	cursor: pointer;

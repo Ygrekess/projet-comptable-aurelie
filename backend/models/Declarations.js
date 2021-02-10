@@ -1,61 +1,66 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+const declarationSchema = new mongoose.Schema({
+	pole: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'poleSante',
+		required: true
+	},
 	loyer: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	electricite: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	eau: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	fournAdmin: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	fournEntr: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	menage: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	assurance: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	honoraires: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	annoncesInsertions: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	fraisPostaux: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	internetTelephone: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	fraisBancaires: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	cfe: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	receptionDeplacement: {
 		type: Number,
-		required: true,
+		required: false,
 	},
 	petitEquipement: {
 		type: Date,
@@ -63,5 +68,5 @@ const userSchema = new mongoose.Schema({
 	}
 });
 
-const userModel = mongoose.model('users', userSchema);
-export default userModel;
+const declarationModel = mongoose.model('declaration', declarationSchema);
+export default declarationModel;

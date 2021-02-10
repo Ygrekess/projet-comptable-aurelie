@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import authRoutes from './routes/authRoutes.js';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import poleRouter from './routes/poleRoutes.js'
+import specialiteRouter from './routes/specialiteRoutes.js'
 
 dotenv.config();
 
@@ -21,9 +23,10 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
 /* api */
 app.use('/api/auth', authRoutes)
+app.use('/api/poles', poleRouter)
+app.use('/api/specialites', specialiteRouter)
 
 app.listen(process.env.PORT || 5000, () => {
 	console.log(`Votre serveur a démarré sur le port ${process.env.PORT}`)
