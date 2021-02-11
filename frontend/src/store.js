@@ -1,18 +1,37 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { userLoginReducer, userRegisterReducer } from './1-reducers/userReducers';
-import Cookie from 'js-cookie';
-import { poleAddReducer, allPolesGetReducer, onePoleGetReducer, poleUpdateReducer } from './1-reducers/poleReducers';
-import { allSpecialitesGetReducer, oneSpecialitesGetReducer, specialiteAddReducer, specialiteUpdateReducer } from './1-reducers/specialiteReducers';
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+} from "./1-reducers/userReducers";
+import Cookie from "js-cookie";
+import {
+  poleAddReducer,
+  allPolesGetReducer,
+  onePoleGetReducer,
+  poleUpdateReducer,
+} from "./1-reducers/poleReducers";
+import {
+  allSpecialitesGetReducer,
+  oneSpecialitesGetReducer,
+  specialiteAddReducer,
+  specialiteUpdateReducer,
+} from "./1-reducers/specialiteReducers";
+import {
+  addDeclarationReducer,
+  allDeclarationsGetReducer,
+  declarationUpdateReducer,
+  oneDeclarationGetReducer,
+} from "./1-reducers/declarationReducers";
 
-const userInfos = Cookie.getJSON('userInfos') || null;
+const userInfos = Cookie.getJSON("userInfos") || null;
 
 const initialState = {
   userLogin: {
     loading: false,
-    userInfos: userInfos
-  }
-}
+    userInfos: userInfos,
+  },
+};
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -24,7 +43,11 @@ const reducer = combineReducers({
   allSpecialitesGet: allSpecialitesGetReducer,
   specialiteSelected: oneSpecialitesGetReducer,
   specialiteAdd: specialiteAddReducer,
-  specialiteUpdated: specialiteUpdateReducer
+  specialiteUpdated: specialiteUpdateReducer,
+  allDeclarationsGet: allDeclarationsGetReducer,
+  declarationSelected: oneDeclarationGetReducer,
+  declarationAdd: addDeclarationReducer,
+  declarationUpdated: declarationUpdateReducer,
 });
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
