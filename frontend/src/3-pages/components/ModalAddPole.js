@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { addPole } from "../../2-actions/poleActions";
@@ -6,6 +6,9 @@ import Notifications, { notify } from "react-notify-toast";
 import LoadingSpinner from "../components/LoadingSpinner.js";
 
 export default function ModalAddPole() {
+  const [surfTotale, setSurfaceTotale] = useState(0);
+  const [loyerAnnuel, setLoyerAnnuel] = useState(0);
+
   const { register, handleSubmit, reset, errors } = useForm({});
 
   const dispatch = useDispatch();
@@ -14,18 +17,21 @@ export default function ModalAddPole() {
   const { loading, success, error } = poleAdd;
 
   const onSubmit = (data) => {
+    console.log(data);
     const pole = {
       name: data.name,
       address: data.address,
       postalCode: data.postalCode,
       city: data.city,
       surfaceTotale: data.surfaceTotale,
+      surfaceCommuns: data.surfaceCommuns,
+      repartitionSurfCommuns: data.repartitionSurfCommuns,
+      surfaceProfNonRepr: data.surfaceProfNonRepr,
+      repartitionSurfaceProfNonRepr: data.repartitionSurfaceProfNonRepr,
       loyerAnnuel: data.loyerAnnuel,
-      loyerMensuelm2: (
-        Number(data.loyerAnnuel) /
-        Number(data.surfaceTotale) /
-        12
-      ).toFixed(2),
+      loyerMensuelm2: (Number(loyerAnnuel / surfTotale) / 12).toFixed(2),
+      salaire: data.salaire,
+      chargesSociales: data.chargesSociales,
     };
     dispatch(addPole(pole));
   };
@@ -46,7 +52,7 @@ export default function ModalAddPole() {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Notifications />
-        <h2>Ajouter un pôle</h2>
+        <h2>Infos générales</h2>
         <div>
           <label>Nom</label>
           <input
@@ -83,21 +89,97 @@ export default function ModalAddPole() {
             ref={register}
           />
         </div>
+        <hr />
+        <h2>Surface</h2>
         <div>
-          <label>Surface totale</label>
+          <label>Surface totale (m²)</label>
           <input
             name="surfaceTotale"
             className={errors.surfaceTotale && "error"}
+            value={surfTotale}
+            onChange={(e) => setSurfaceTotale(e.target.value)}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Loyer annuel (€)</label>
+          <input
+            name="loyerAnnuel"
+            value={loyerAnnuel}
+            className={errors.loyerAnnuel && "error"}
+            onChange={(e) => {
+              setLoyerAnnuel(e.target.value);
+            }}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Surface communs (m²)</label>
+          <input
+            name="surfaceCommuns"
+            className={errors.surfaceCommuns && "error"}
             defaultValue={""}
             ref={register}
           />
         </div>
         <div>
-          <label>Loyer annuel</label>
+          <label for="repartitionSurfCommuns">
+            Répartition surface communs
+          </label>
+          <select
+            name="repartitionSurfCommuns"
+            id="repartitionSurfCommuns"
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="surfacePropre">% Surface propre</option>
+            <option value="recettes">% Recettes</option>
+            <option value="bailleur">100% Bailleur</option>
+            <option value="mg">100% MG</option>
+          </select>
+        </div>
+        <div>
+          <label>Surface profession non représentée (m²)</label>
           <input
-            name="loyerAnnuel"
-            className={errors.loyerAnnuel && "error"}
+            name="surfaceProfNonRepr"
+            className={errors.surfaceProfNonRepr && "error"}
+            defaultValue={0}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label for="repartitionSurfaceProfNonRepr">
+            Répartition surface profession non représentée
+          </label>
+          <select
+            name="repartitionSurfaceProfNonRepr"
+            id="repartitionSurfaceProfNonRepr"
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="surfacePropre">% Surface propre</option>
+            <option value="recettes">% Recettes</option>
+            <option value="bailleur">100% Bailleur</option>
+            <option value="mg">100% MG</option>
+          </select>
+        </div>
+        <hr />
+        <h2>Employés</h2>
+        <div>
+          <label>Salaire brut (€)</label>
+          <input
+            name="salaire"
+            className={errors.salaire && "error"}
             defaultValue={""}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Charges sociales (%)</label>
+          <input
+            name="chargesSociales"
+            className={errors.chargesSociales && "error"}
+            defaultValue={20}
             ref={register}
           />
         </div>

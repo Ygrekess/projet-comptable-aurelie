@@ -13,6 +13,7 @@ export default function ModalAddSpecialite() {
   const poleSelected = useSelector((state) => state.poleSelected);
   const { pole } = poleSelected;
 
+  console.log(pole);
   const specialiteAdd = useSelector((state) => state.specialiteAdd);
   const { loading, success, error } = specialiteAdd;
 
@@ -28,6 +29,15 @@ export default function ModalAddSpecialite() {
       surfPropreProf: data.surfPropreProf,
       surfCommuns: data.surfCommuns,
       surfPraticien: data.surfPraticien,
+      numbSalariesETP: data.numbSalariesETP,
+      salaireBrut: data.salaireBrut,
+      coefSurfPraticienLoyer: (data.surfPraticien / pole.surfaceTotale).toFixed(
+        3
+      ),
+      coefSurfPraticienAutresCharge: (
+        data.surfPraticien /
+        (pole.surfaceTotale - pole.surfaceProfNonRepr)
+      ).toFixed(3),
     };
     dispatch(addSpecialite(pole._id, specialite));
   };
@@ -57,10 +67,11 @@ export default function ModalAddSpecialite() {
         <Notifications />
         <h2>Ajouter une spécialité</h2>
         <div>
-          <label>Type</label>
+          <label>Spécialité</label>
           <input
             name="name"
             className={errors.name && "error"}
+            placeholder="Ex. Médecin, dentiste.."
             defaultValue={""}
             ref={register}
           />
@@ -107,6 +118,24 @@ export default function ModalAddSpecialite() {
             name="surfPraticien"
             className={errors.surfPraticien && "error"}
             defaultValue={""}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Nombre de salariés en ETP</label>
+          <input
+            name="numbSalariesETP"
+            className={errors.numbSalariesETP && "error"}
+            defaultValue={""}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Salaire brut (€)</label>
+          <input
+            name="salaireBrut"
+            className={errors.salaireBrut && "error"}
+            defaultValue={pole.salaire}
             ref={register}
           />
         </div>

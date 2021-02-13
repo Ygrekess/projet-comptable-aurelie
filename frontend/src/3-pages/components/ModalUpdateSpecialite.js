@@ -25,6 +25,15 @@ export default function ModalUpdateSpecialite({ specialite, pole }) {
       surfPropreProf: data.surfPropreProf,
       surfCommuns: data.surfCommuns,
       surfPraticien: data.surfPraticien,
+      numbSalariesETP: data.numbSalariesETP,
+      salaireBrut: data.salaireBrut,
+      coefSurfPraticienLoyer: (data.surfPraticien / pole.surfaceTotale).toFixed(
+        3
+      ),
+      coefSurfPraticienAutresCharge: (
+        data.surfPraticien /
+        (pole.surfaceTotale - pole.surfaceProfNonRepr)
+      ).toFixed(3),
     };
     dispatch(updateSpecialite(specialite._id, specialiteUpdated));
   };
@@ -52,7 +61,7 @@ export default function ModalUpdateSpecialite({ specialite, pole }) {
         <Notifications />
         <h2>{specialite.name}</h2>
         <div>
-          <label>Type</label>
+          <label>Spécialité</label>
           <input
             name="name"
             className={errors.name && "error"}
@@ -122,6 +131,24 @@ export default function ModalUpdateSpecialite({ specialite, pole }) {
           {errors.surfPraticien && (
             <span className="danger">Merci de saisir une valeur.</span>
           )}
+        </div>
+        <div>
+          <label>Nombre de salariés en ETP</label>
+          <input
+            name="numbSalariesETP"
+            className={errors.numbSalariesETP && "error"}
+            defaultValue={specialite.numbSalariesETP}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Salaire brut (€)</label>
+          <input
+            name="salaireBrut"
+            className={errors.salaireBrut && "error"}
+            defaultValue={pole.salaire}
+            ref={register}
+          />
         </div>
         <button type="submit" form="form-update-specialite" value="">
           Valider les modifications

@@ -26,12 +26,16 @@ export default function Admin_Pole_Infos(props) {
       postalCode: data.postalCode,
       city: data.city,
       surfaceTotale: data.surfaceTotale,
+      surfaceCommuns: data.surfaceCommuns,
+      repartitionSurfCommuns: data.repartitionSurfCommuns,
+      surfaceProfNonRepr: data.surfaceProfNonRepr,
+      repartitionSurfaceProfNonRepr: data.repartitionSurfaceProfNonRepr,
       loyerAnnuel: data.loyerAnnuel,
       loyerMensuelm2: (
-        Number(data.loyerAnnuel) /
-        Number(data.surfaceTotale) /
-        12
+        Number(data.loyerAnnuel / data.surfaceTotale) / 12
       ).toFixed(2),
+      salaire: data.salaire,
+      chargesSociales: data.chargesSociales,
     };
     dispatch(updatePole(pole._id, poleUpdated));
   };
@@ -85,8 +89,10 @@ export default function Admin_Pole_Infos(props) {
             ref={register}
           />
         </div>
+        <hr />
+        <h2>Surface</h2>
         <div>
-          <label>Surface totale</label>
+          <label>Surface totale (m²)</label>
           <input
             name="surfaceTotale"
             className={errors.surfaceTotale && "error"}
@@ -95,21 +101,83 @@ export default function Admin_Pole_Infos(props) {
           />
         </div>
         <div>
-          <label>Loyer annuel</label>
+          <label>Loyer annuel (€)</label>
           <input
             name="loyerAnnuel"
-            className={errors.loyerAnnuel && "error"}
             defaultValue={pole.loyerAnnuel}
+            className={errors.loyerAnnuel && "error"}
             ref={register}
           />
         </div>
         <div>
-          <label>Prix mensuel au m2 (€)</label>
+          <label>Surface communs (m²)</label>
           <input
-            disabled
-            name="loyerMensuelm2"
-            className={errors.loyerMensuelm2 && "error"}
-            defaultValue={pole.loyerMensuelm2}
+            name="surfaceCommuns"
+            className={errors.surfaceCommuns && "error"}
+            defaultValue={pole.surfaceCommuns}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label htmlFor="repartitionSurfCommuns">
+            Répartition surface communs
+          </label>
+          <select
+            name="repartitionSurfCommuns"
+            id="repartitionSurfCommuns"
+            ref={register}
+            defaultValue={pole.repartitionSurfCommuns}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="surfacePropre">% Surface propre</option>
+            <option value="recettes">% Recettes</option>
+            <option value="bailleur">100% Bailleur</option>
+            <option value="mg">100% MG</option>
+          </select>
+        </div>
+        <div>
+          <label>Surface profession non représentée (m²)</label>
+          <input
+            name="surfaceProfNonRepr"
+            className={errors.surfaceProfNonRepr && "error"}
+            defaultValue={pole.surfaceProfNonRepr}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label htmlFor="repartitionSurfaceProfNonRepr">
+            Répartition surface profession non représentée
+          </label>
+          <select
+            name="repartitionSurfaceProfNonRepr"
+            id="repartitionSurfaceProfNonRepr"
+            defaultValue={pole.repartitionSurfaceProfNonRepr}
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="surfacePropre">% Surface propre</option>
+            <option value="recettes">% Recettes</option>
+            <option value="bailleur">100% Bailleur</option>
+            <option value="mg">100% MG</option>
+          </select>
+        </div>
+        <hr />
+        <h2>Employés</h2>
+        <div>
+          <label>Salaire brut (€)</label>
+          <input
+            name="salaire"
+            className={errors.salaire && "error"}
+            defaultValue={pole.salaire}
+            ref={register}
+          />
+        </div>
+        <div>
+          <label>Charges sociales (%)</label>
+          <input
+            name="chargesSociales"
+            className={errors.chargesSociales && "error"}
+            defaultValue={pole.chargesSociales}
             ref={register}
           />
         </div>

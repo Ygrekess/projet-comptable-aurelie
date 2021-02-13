@@ -31,9 +31,11 @@ router.post("/", async (req, res) => {
     surfPropreProf: req.body.specialite.surfPropreProf,
     surfCommuns: req.body.specialite.surfCommuns,
     surfPraticien: req.body.specialite.surfPraticien,
-    coefSurfPraticienLoyer: req.body.specialite.coefSurfPraticienLoyer || 3.5,
+    numbSalariesETP: req.body.specialite.numbSalariesETP,
+    salaireBrut: req.body.specialite.salaireBrut,
+    coefSurfPraticienLoyer: req.body.specialite.coefSurfPraticienLoyer,
     coefSurfPraticienAutresCharge:
-      req.body.specialite.coefSurfPraticienAutresCharge || 3.5,
+      req.body.specialite.coefSurfPraticienAutresCharge,
   });
   console.log(specialite);
   try {
@@ -54,10 +56,11 @@ router.put("/:id", async (req, res) => {
     specialite.surfPropreProf = req.body.surfPropreProf;
     specialite.surfCommuns = req.body.surfCommuns;
     specialite.surfPraticien = req.body.surfPraticien;
-    (specialite.coefSurfPraticienLoyer =
-      req.body.coefSurfPraticienLoyer || 3.5),
-      (specialite.coefSurfPraticienAutresCharge =
-        req.body.coefSurfPraticienAutresCharge || 3.5);
+    specialite.numbSalariesETP = req.body.numbSalariesETP;
+    specialite.salaireBrut = req.body.salaireBrut;
+    specialite.coefSurfPraticienLoyer = req.body.coefSurfPraticienLoyer;
+    specialite.coefSurfPraticienAutresCharge =
+      req.body.coefSurfPraticienAutresCharge;
 
     const updatedSpecialite = specialite.save();
     res.status(200).send(updatedSpecialite);

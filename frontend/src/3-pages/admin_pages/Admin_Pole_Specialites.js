@@ -22,7 +22,9 @@ export default function Admin_Pole_Specialites() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllSpecialites(pole._id));
+    if (!specialites) {
+      dispatch(getAllSpecialites(pole._id));
+    }
     return () => {};
   }, [success]);
 

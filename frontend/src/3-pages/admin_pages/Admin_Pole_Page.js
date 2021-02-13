@@ -69,7 +69,7 @@ export default function Admin_Pole_Page(props) {
               component={Admin_Pole_Specialites}
             />
             <Route
-              path="/dashboard/admin/mes-poles/:id/analyse"
+              path="/dashboard/admin/mes-poles/:id/analyse/:declarationId?"
               component={Admin_Pole_Analyse}
             />
           </div>

@@ -26,7 +26,7 @@ const allDeclarationsGetReducer = (state = { loading: true }, action) => {
   }
 };
 
-const oneDeclarationGetReducer = (state = { loading: true }, action) => {
+const oneDeclarationGetReducer = (state = {}, action) => {
   switch (action.type) {
     case "DECLARATION_GET_REQUEST":
       return { loading: true };

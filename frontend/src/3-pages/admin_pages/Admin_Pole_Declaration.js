@@ -22,7 +22,9 @@ export default function Admin_Pole_Declaration() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllDeclarations(pole._id));
+    if (!declarations) {
+      dispatch(getAllDeclarations(pole._id));
+    }
     return () => {};
   }, [success]);
 
