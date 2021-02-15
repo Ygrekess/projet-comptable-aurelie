@@ -28,7 +28,7 @@ h4 {
 }
 .page {
   width: 100%;
-  height: 30rem;
+  height: 100%;
 }
 .menu-container {
   width: 80%;
@@ -42,6 +42,7 @@ h4 {
 .menu-item {
   width: 30%;
   height: 40%;
+  min-width: 20rem;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
   display: flex;
@@ -57,10 +58,17 @@ h4 {
 .menu-item a {
   width: 100%;
   height: 100%;
+
+  min-height: 15rem;
   color: thistle;
   border-radius: 10px;
   border: 5px solid thistle;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
+  font-size: 40px;
 }
 .icon-title {
   display: flex;
@@ -175,6 +183,7 @@ h4 {
   font-size: 15px;
   margin: 0 1rem;
 }
+
 /* Admin pole infos page */
 .pole-infos-page {
   width: 100%;
@@ -224,6 +233,7 @@ h4 {
   transform: scale(1.05);
   cursor: pointer;
 }
+
 /* Admin pole declaration */
 .admin-pole-declaration-page {
   height: auto;
@@ -267,6 +277,7 @@ h4 {
 .add-declaration-item * {
   margin: 0;
 }
+
 /* Modal */
 .Modal-add-declaration,
 .Modal-update-declaration,
@@ -311,7 +322,7 @@ h4 {
   height: 100%;
   width: auto;
   background-color: #ffff;
-  padding: 0.5rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -356,7 +367,7 @@ h4 {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-end;
 }
 .form-add-declaration div div,
 .form-update-declaration div div {
@@ -415,6 +426,57 @@ select {
   transform: scale(1.05);
   cursor: pointer;
 }
+@media only screen and (max-width: 990px) {
+  /* Admin dashboard */
+  .menu-item {
+    width: 90%;
+  }
+  /* Admin pole menu */
+  .admin-pole-page-menu {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .admin-pole-page-menu a {
+    min-width: 15rem;
+    border-top: 1px solid thistle;
+    border-left: none;
+    border-right: none;
+  }
+  .admin-pole-page-menu a:nth-child(4) {
+    border-right: none;
+    border-bottom: 1px solid thistle;
+  }
+  /* Admin pole infos page */
+  .pole-infos-form h2 {
+    margin-left: 0;
+  }
+  .pole-infos-form div {
+    width: 100%;
+  }
+  .pole-infos-form button {
+    height: auto;
+    min-height: 3rem;
+    width: 100%;
+  }
+  /* Modal */
+  .Modal-add-declaration,
+  .Modal-update-declaration,
+  .Modal-add-pole,
+  .Modal-add-specialite,
+  .Modal-update-specialite {
+    width: 90vw;
+  }
+  .form-add-specialite div,
+  .form-update-specialite div,
+  .form-add-pole div {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+  }
+}
 /* Admin pole specialites */
 .admin-pole-specialites-page {
   width: 100%;
@@ -432,7 +494,7 @@ select {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .specialite-item,
 .add-specialite-item {
@@ -558,3 +620,5 @@ tr {
   transform: scale(1.1);
   background-color: rgb(202, 166, 202);
 }
+
+/* Responsive */

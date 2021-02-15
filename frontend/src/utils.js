@@ -21,6 +21,86 @@ const repartitionName = (repartition) => {
   }
 };
 
+const calculRepartitionSurface = (
+  repartition = null,
+  surfaceCommuns = null,
+  surfacePropreProf = null,
+  surfacePropreTotal = null,
+  recettesAnnuellesPrat = null,
+  recettesAnnuellesTotal = null,
+  totalPrat = null,
+  nombrePrat = null
+) => {
+  /*   console.log(
+    repartition,
+    surfaceCommuns,
+    surfacePropreProf,
+    surfacePropreTotal,
+    recettesAnnuellesPrat,
+    recettesAnnuellesTotal,
+    totalPrat,
+    nombrePrat
+  ); */
+  switch (repartition) {
+    case "partsEgales":
+      const partEgales = (surfaceCommuns / totalPrat) * nombrePrat;
+      return partEgales.toFixed(2);
+    case "surfacePropre":
+      const surfacePropre =
+        (surfacePropreProf / surfacePropreTotal) * surfaceCommuns;
+      return surfacePropre.toFixed(2);
+    case "recettes":
+      const recettes =
+        ((recettesAnnuellesPrat * nombrePrat) / recettesAnnuellesTotal) *
+        surfaceCommuns;
+      return recettes.toFixed(2);
+    default:
+      return "Erreur";
+  }
+};
+
+const calculRepartitionSurfaceNonRep = (
+  repartition = null,
+  surfaceCommunsProf = null,
+  surfacePropreProf = null,
+  surfaceProfNonRep = null,
+  surfaceTotale = null,
+  recettesAnnuellesPrat = null,
+  recettesAnnuellesTotal = null,
+  totalPrat = null,
+  pratName = null,
+  nombrePrat = null
+) => {
+  switch (repartition) {
+    case "partsEgales":
+      const partEgales = (surfaceProfNonRep / totalPrat) * nombrePrat;
+      return partEgales.toFixed(2);
+    case "surfacePropre":
+      const surfacePropre =
+        nombrePrat === 0
+          ? 0
+          : ((surfacePropreProf + surfaceCommunsProf) /
+              (surfaceTotale - surfaceProfNonRep)) *
+            surfaceProfNonRep;
+      return surfacePropre.toFixed(2);
+    case "recettes":
+      const recettes =
+        ((recettesAnnuellesPrat * nombrePrat) / recettesAnnuellesTotal) *
+        surfaceProfNonRep;
+      return recettes.toFixed(2);
+    case "bailleur":
+      return 0;
+    case "mg":
+      const mg =
+        pratName === "Médecin"
+          ? (surfaceProfNonRep * nombrePrat) / nombrePrat
+          : 0;
+      return mg.toFixed(2);
+    default:
+      return "Erreur";
+  }
+};
+
 const calculRepartitionCharge = (
   repartition,
   chargeTotale,
@@ -63,4 +143,10 @@ const formatDate = (date) => {
   return day;
 };
 
-export { repartitionName, calculRepartitionCharge, formatDate };
+export {
+  repartitionName,
+  calculRepartitionCharge,
+  calculRepartitionSurface,
+  calculRepartitionSurfaceNonRep,
+  formatDate,
+};

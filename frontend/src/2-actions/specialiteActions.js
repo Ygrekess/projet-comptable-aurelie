@@ -20,6 +20,7 @@ const getAllSpecialites = (poleId) => async (dispatch) => {
     console.log(data);
     dispatch({ type: "SPECIALITES_GET_SUCCESS", payload: data });
   } catch (error) {
+    console.log(error.response);
     dispatch({ type: "SPECIALITES_GET_FAIL", payload: error.response.data });
   }
 };

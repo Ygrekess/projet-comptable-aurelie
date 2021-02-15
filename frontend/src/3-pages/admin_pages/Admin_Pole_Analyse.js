@@ -5,11 +5,17 @@ import {
   getOneDeclaration,
 } from "../../2-actions/declarationActions";
 import { getAllSpecialites } from "../../2-actions/specialiteActions";
-import { repartitionName, calculRepartitionCharge } from "../../utils";
+import {
+  repartitionName,
+  calculRepartitionCharge,
+  calculRepartitionSurface,
+  calculRepartitionSurfaceNonRep,
+} from "../../utils";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { formatDate } from "../../utils";
 
 export default function Admin_Pole_Analyse(props) {
+  const [electricite, setElectricite] = useState(0);
   const poleSelected = useSelector((state) => state.poleSelected);
   const { pole } = poleSelected;
 
@@ -38,7 +44,6 @@ export default function Admin_Pole_Analyse(props) {
     dispatch(getAllSpecialites(pole._id));
     dispatch(getAllDeclarations(pole._id));
     if (declarationRadio) {
-      console.log(declarationRadio);
       dispatch(getOneDeclaration(declarationRadio));
     }
 
@@ -105,7 +110,10 @@ export default function Admin_Pole_Analyse(props) {
                 <td>
                   {Math.ceil(
                     specialites.reduce((totalValue, currentValue) => {
-                      return totalValue + currentValue.honoraires;
+                      return (
+                        totalValue +
+                        currentValue.honoraires * currentValue.nombre
+                      );
                     }, 0)
                   )}
                 </td>
@@ -133,7 +141,25 @@ export default function Admin_Pole_Analyse(props) {
                 <td> {Math.ceil(pole.surfaceCommuns)} </td>
                 <td> {repartitionName(pole.repartitionSurfCommuns)} </td>
                 {specialites.map((specialite, i) => (
-                  <th key={i}>{specialite.surfCommuns}</th>
+                  <th key={i}>
+                    {calculRepartitionSurface(
+                      pole.repartitionSurfCommuns,
+                      pole.surfaceCommuns,
+                      specialite.surfPropreProf,
+                      Math.ceil(pole.surfaceTotale - pole.surfaceCommuns),
+                      specialite.honoraires,
+                      specialites.reduce((totalValue, currentValue) => {
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
+                      }, 0),
+                      specialites.reduce((totalValue, currentValue) => {
+                        return totalValue + currentValue.nombre;
+                      }, 0),
+                      specialite.nombre
+                    )}
+                  </th>
                 ))}
               </tr>
               <tr>
@@ -142,7 +168,25 @@ export default function Admin_Pole_Analyse(props) {
                 <td> {repartitionName(pole.repartitionSurfaceProfNonRepr)} </td>
                 {specialites.map((specialite, i) => (
                   <th key={i} className="vide">
-                    {0}
+                    {calculRepartitionSurfaceNonRep(
+                      pole.repartitionSurfaceProfNonRepr,
+                      specialite.surfaceCommuns,
+                      specialite.surfPropreProf,
+                      pole.surfaceProfNonRepr,
+                      pole.surfaceTotale,
+                      specialite.honoraires,
+                      specialites.reduce((totalValue, currentValue) => {
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
+                      }, 0),
+                      specialites.reduce((totalValue, currentValue) => {
+                        return totalValue + currentValue.nombre;
+                      }, 0),
+                      specialite.name,
+                      specialite.nombre
+                    )}
                   </th>
                 ))}
               </tr>
@@ -207,6 +251,7 @@ export default function Admin_Pole_Analyse(props) {
                     {specialite.name}
                   </th>
                 ))}
+                <th>Total annuel</th>
                 <th>Dont fixe</th>
               </tr>
             </thead>
@@ -232,13 +277,17 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
                     )}
                   </td>
                 ))}
+                <td></td>
                 <td>
                   {declarationChoosed.loyer.repartition === "ponderation"
                     ? (
@@ -257,8 +306,9 @@ export default function Admin_Pole_Analyse(props) {
                 <td>
                   {repartitionName(declarationChoosed.electricite.repartition)}
                 </td>
+
                 {specialites.map((specialite, i) => (
-                  <td key={i}>
+                  <td key={i} className="charge">
                     {calculRepartitionCharge(
                       declarationChoosed.electricite.repartition,
                       declarationChoosed.electricite.total,
@@ -274,13 +324,17 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
                     )}
                   </td>
                 ))}
+                <td>{electricite}</td>
                 <td>
                   {declarationChoosed.electricite.repartition === "ponderation"
                     ? (
@@ -315,7 +369,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -358,7 +415,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -401,7 +461,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -444,7 +507,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -487,7 +553,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -530,7 +599,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -575,7 +647,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -619,7 +694,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -664,7 +742,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -710,7 +791,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -752,7 +836,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -797,7 +884,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
@@ -843,7 +933,10 @@ export default function Admin_Pole_Analyse(props) {
                       }, 0),
                       specialite.honoraires,
                       specialites.reduce((totalValue, currentValue) => {
-                        return totalValue + currentValue.honoraires;
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
                       }, 0),
                       specialite.coefSurfPraticienLoyer,
                       specialite.coefSurfPraticienAutresCharge
