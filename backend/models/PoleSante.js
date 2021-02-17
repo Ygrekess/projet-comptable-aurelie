@@ -13,7 +13,10 @@ const poleSanteSchema = new mongoose.Schema({
   loyerAnnuel: { type: Number, required: true },
   loyerMensuelm2: { type: Number },
   salaire: { type: Number, required: true },
+  repartitionSalaire: { type: String, required: true },
+  repartitionTaxeSalaires: { type: String, required: true },
   chargesSociales: { type: Number, required: true },
+  repartitionRefChargeSisa: { type: String, required: true },
   date: {
     type: Date,
     default: Date.now,

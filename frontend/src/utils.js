@@ -102,6 +102,7 @@ const calculRepartitionSurfaceNonRep = (
 };
 
 const calculRepartitionCharge = (
+  chargeName,
   repartition,
   chargeTotale,
   fixe = null,
@@ -113,14 +114,15 @@ const calculRepartitionCharge = (
 ) => {
   switch (repartition) {
     case "partsEgales":
-      return (chargeTotale / nombrePrat).toFixed(2);
+      return Number(chargeTotale / nombrePrat).toFixed(2);
     case "recettes":
-      return (
-        (chargeTotale * recettesAnnuellesPrat) /
-        totalRecettesAnnuelles
+      return Number(
+        (chargeTotale * recettesAnnuellesPrat) / totalRecettesAnnuelles
       ).toFixed(2);
     case "coefSurface":
-      return (chargeTotale * coefSurfaceL).toFixed(2);
+      return Number(
+        chargeTotale * (chargeName !== "Loyer" ? coefSurfaceC : coefSurfaceL)
+      ).toFixed(2); /* (chargeName !== "Loyer" ? coefSurfaceC : coefSurfaceL) */
     case "ponderation":
       const ponde =
         Number(fixe) +
@@ -130,7 +132,85 @@ const calculRepartitionCharge = (
         (chargeTotale - Number(fixe) * nombrePrat) *
           (1 / (1 + 1)) *
           (recettesAnnuellesPrat / totalRecettesAnnuelles);
-      return ponde.toFixed(2);
+      return Number(ponde).toFixed(2);
+    default:
+      break;
+  }
+};
+
+const calculRepartitionSalaire = (
+  totalSalaire = null,
+  repartition,
+  nombreTotalPrat = null,
+  fixe = null,
+  recettesAnnuellesPrat = null,
+  totalRecettesAnnuelles = null,
+  nombreHeuresSalarie = null,
+  totalHeuresSalarie = null,
+  coefSurfaceC = null
+) => {
+  switch (repartition) {
+    case "partsEgales":
+      return (totalSalaire / nombreTotalPrat).toFixed(2);
+    case "ponderation":
+      const ponde =
+        Number(fixe) +
+        (totalSalaire - Number(fixe) * nombreTotalPrat) *
+          (1 / (1 + 1)) *
+          coefSurfaceC +
+        (totalSalaire - Number(fixe) * nombreTotalPrat) *
+          (1 / (1 + 1)) *
+          (recettesAnnuellesPrat / totalRecettesAnnuelles);
+      return Number(ponde).toFixed(2);
+    case "coefSurface":
+      return Number(totalSalaire * coefSurfaceC).toFixed(2);
+    case "recettes":
+      return Number(
+        (totalSalaire * recettesAnnuellesPrat) / totalRecettesAnnuelles
+      ).toFixed(2);
+    case "libre":
+      return Number(
+        (totalSalaire * nombreHeuresSalarie * 52) / totalHeuresSalarie
+      ).toFixed(2);
+    default:
+      break;
+  }
+};
+
+const calculRepartitionTaxeSalaire = (
+  totalTaxe = null,
+  repartition,
+  nombreTotalPrat = null,
+  fixe = null,
+  recettesAnnuellesPrat = null,
+  totalRecettesAnnuelles = null,
+  nombreHeuresSalarie = null,
+  totalHeuresSalarie = null,
+  coefSurfaceC = null
+) => {
+  switch (repartition) {
+    case "partsEgales":
+      return (totalTaxe / nombreTotalPrat).toFixed(2);
+    case "ponderation":
+      const ponde =
+        Number(fixe) +
+        (totalTaxe - Number(fixe) * nombreTotalPrat) *
+          (1 / (1 + 1)) *
+          coefSurfaceC +
+        (totalTaxe - Number(fixe) * nombreTotalPrat) *
+          (1 / (1 + 1)) *
+          (recettesAnnuellesPrat / totalRecettesAnnuelles);
+      return Number(ponde).toFixed(2);
+    case "coefSurface":
+      return Number(totalTaxe * coefSurfaceC).toFixed(2);
+    case "recettes":
+      return Number(
+        (totalTaxe * recettesAnnuellesPrat) / totalRecettesAnnuelles
+      ).toFixed(2);
+    case "libre":
+      return Number(
+        (totalTaxe * nombreHeuresSalarie * 52) / totalHeuresSalarie
+      ).toFixed(2);
     default:
       break;
   }
@@ -148,5 +228,7 @@ export {
   calculRepartitionCharge,
   calculRepartitionSurface,
   calculRepartitionSurfaceNonRep,
+  calculRepartitionSalaire,
+  calculRepartitionTaxeSalaire,
   formatDate,
 };

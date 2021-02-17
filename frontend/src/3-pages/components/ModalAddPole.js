@@ -32,6 +32,9 @@ export default function ModalAddPole() {
       loyerMensuelm2: (Number(loyerAnnuel / surfTotale) / 12).toFixed(2),
       salaire: data.salaire,
       chargesSociales: data.chargesSociales,
+      repartitionSalaire: data.repartitionSalaire,
+      repartitionTaxeSalaires: data.repartitionTaxeSalaires,
+      repartitionRefChargeSisa: data.repartitionRefChargeSisa,
     };
     dispatch(addPole(pole));
   };
@@ -123,7 +126,7 @@ export default function ModalAddPole() {
           />
         </div>
         <div>
-          <label for="repartitionSurfCommuns">
+          <label htmlFor="repartitionSurfCommuns">
             Répartition surface communs
           </label>
           <select
@@ -148,7 +151,7 @@ export default function ModalAddPole() {
           />
         </div>
         <div>
-          <label for="repartitionSurfaceProfNonRepr">
+          <label htmlFor="repartitionSurfaceProfNonRepr">
             Répartition surface profession non représentée
           </label>
           <select
@@ -175,6 +178,38 @@ export default function ModalAddPole() {
           />
         </div>
         <div>
+          <label htmlFor="repartitionSalaire">Répartition des salaires</label>
+          <select
+            name="repartitionSalaire"
+            id="repartitionSalaire"
+            defaultValue="libre"
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="ponderation">Pondération</option>
+            <option value="coefSurface">Coef surface</option>
+            <option value="recettes">% recettes</option>
+            <option value="libre">Libre</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="repartitionTaxeSalaires">
+            Répartition taxe sur salaires
+          </label>
+          <select
+            name="repartitionTaxeSalaires"
+            id="repartitionTaxeSalaires"
+            defaultValue="libre"
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="ponderation">Pondération</option>
+            <option value="coefSurface">Coef surface</option>
+            <option value="recettes">% recettes</option>
+            <option value="libre">Libre</option>
+          </select>
+        </div>
+        <div>
           <label>Charges sociales (%)</label>
           <input
             name="chargesSociales"
@@ -182,6 +217,24 @@ export default function ModalAddPole() {
             defaultValue={20}
             ref={register}
           />
+        </div>
+
+        <div>
+          <label htmlFor="repartitionRefChargeSisa">
+            Refacturation charges à la SISA (forfaitaire)
+          </label>
+          <select
+            name="repartitionRefChargeSisa"
+            id="repartitionRefChargeSisa"
+            defaultValue="ponderation"
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="ponderation">Pondération</option>
+            <option value="coefSurface">Coef surface</option>
+            <option value="recettes">% recettes</option>
+            <option value="libre">Libre</option>
+          </select>
         </div>
         <button type="submit" form="form-add-pole" value="">
           Ajouter

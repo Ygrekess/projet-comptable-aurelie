@@ -20,6 +20,7 @@ export default function Admin_Pole_Infos(props) {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    console.log(data);
     const poleUpdated = {
       name: data.name,
       address: data.address,
@@ -36,6 +37,9 @@ export default function Admin_Pole_Infos(props) {
       ).toFixed(2),
       salaire: data.salaire,
       chargesSociales: data.chargesSociales,
+      repartitionSalaire: data.repartitionSalaire,
+      repartitionTaxeSalaires: data.repartitionTaxeSalaires,
+      repartitionRefChargeSisa: data.repartitionRefChargeSisa,
     };
     dispatch(updatePole(pole._id, poleUpdated));
   };
@@ -173,6 +177,38 @@ export default function Admin_Pole_Infos(props) {
           />
         </div>
         <div>
+          <label htmlFor="repartitionSalaire">Répartition des salaires</label>
+          <select
+            name="repartitionSalaire"
+            id="repartitionSalaire"
+            defaultValue={pole.repartitionSalaire}
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="ponderation">Pondération</option>
+            <option value="coefSurface">Coef surface</option>
+            <option value="recettes">% recettes</option>
+            <option value="libre">Libre</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="repartitionTaxeSalaires">
+            Répartition taxe sur salaires
+          </label>
+          <select
+            name="repartitionTaxeSalaires"
+            id="repartitionTaxeSalaires"
+            defaultValue={pole.repartitionTaxeSalaires}
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="ponderation">Pondération</option>
+            <option value="coefSurface">Coef surface</option>
+            <option value="recettes">% recettes</option>
+            <option value="libre">Libre</option>
+          </select>
+        </div>
+        <div>
           <label>Charges sociales (%)</label>
           <input
             name="chargesSociales"
@@ -181,6 +217,25 @@ export default function Admin_Pole_Infos(props) {
             ref={register}
           />
         </div>
+
+        <div>
+          <label htmlFor="repartitionRefChargeSisa">
+            Refacturation charges à la SISA (forfaitaire)
+          </label>
+          <select
+            name="repartitionRefChargeSisa"
+            id="repartitionRefChargeSisa"
+            defaultValue={pole.repartitionRefChargeSisa}
+            ref={register}
+          >
+            <option value="partsEgales">Parts égales</option>
+            <option value="ponderation">Pondération</option>
+            <option value="coefSurface">Coef surface</option>
+            <option value="recettes">% recettes</option>
+            <option value="libre">Libre</option>
+          </select>
+        </div>
+
         <button type="submit" form="pole-infos-form" value="">
           Valider les modifications
         </button>

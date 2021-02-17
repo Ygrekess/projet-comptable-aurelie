@@ -42,6 +42,9 @@ router.post("/ajouter", async (req, res) => {
     loyerMensuelm2: req.body.loyerMensuelm2,
     salaire: req.body.salaire,
     chargesSociales: req.body.chargesSociales,
+    repartitionSalaire: req.body.repartitionSalaire,
+    repartitionTaxeSalaires: req.body.repartitionTaxeSalaires,
+    repartitionRefChargeSisa: req.body.repartitionRefChargeSisa,
   });
   try {
     const savedPole = await poleSante.save();
@@ -73,6 +76,9 @@ router.put("/update/:id", async (req, res) => {
     pole.loyerMensuelm2 = req.body.loyerMensuelm2;
     pole.salaire = req.body.salaire;
     pole.chargesSociales = req.body.chargesSociales;
+    pole.repartitionSalaire = req.body.repartitionSalaire;
+    pole.repartitionTaxeSalaires = req.body.repartitionTaxeSalaires;
+    pole.repartitionRefChargeSisa = req.body.repartitionRefChargeSisa;
 
     const updatedPole = await pole.save();
     res.status(200).send(updatedPole);

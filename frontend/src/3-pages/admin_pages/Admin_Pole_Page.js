@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOnePole, resetSuccessPole } from "../../2-actions/poleActions";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Notifications, { notify } from "react-notify-toast";
+import tableTest from "./tableTest";
 
 export default function Admin_Pole_Page(props) {
   let [compteur, setCompteur] = useState(0);

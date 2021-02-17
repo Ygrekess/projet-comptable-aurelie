@@ -73,8 +73,8 @@ const poleValidation = (data) => {
       "any.required": `Merci de saisir la surface communs du pôle.`,
     }),
     repartitionSurfCommuns: Joi.string().required().messages({
-      "number.empty": `Merci de saisir la surface ttcommuns du pôle.`,
-      "number.base": `Merci de saisir une surface communs cohérente.`,
+      "string.empty": `Merci de saisir la surface ttcommuns du pôle.`,
+      "string.base": `Merci de saisir une surface communs cohérente.`,
       "any.required": `Merci de saisir la surface oocommuns du pôle.`,
     }),
     surfaceProfNonRepr: Joi.number().required().messages({
@@ -83,9 +83,24 @@ const poleValidation = (data) => {
       "any.required": `Merci de saisir la surface de profession non représentée du pôle.`,
     }),
     repartitionSurfaceProfNonRepr: Joi.string().required().messages({
-      "number.empty": `Merci de saisir la surface de profession non représentée du pôle.`,
-      "number.base": `Merci de saisir une surface de profession non représentée cohérente.`,
+      "string.empty": `Merci de saisir la surface de profession non représentée du pôle.`,
+      "string.base": `Merci de saisir une surface de profession non représentée cohérente.`,
       "any.required": `Merci de saisir la surface de profession non représentée du pôle.`,
+    }),
+    repartitionSalaire: Joi.string().required().messages({
+      "string.empty": `Merci de saisir la répartition du salaire.`,
+      "string.base": `Merci de saisir la répartition du salaire.`,
+      "any.required": `Merci de saisir la répartition du salaire.`,
+    }),
+    repartitionTaxeSalaires: Joi.string().required().messages({
+      "string.empty": `Merci de saisir la répartition de taxe sur salaires.`,
+      "string.base": `Merci de saisir la répartition de taxe sur salaires.`,
+      "any.required": `Merci de saisir la répartition de taxe sur salaires.`,
+    }),
+    repartitionRefChargeSisa: Joi.string().required().messages({
+      "string.empty": `Merci de saisir la refacturation de charges à la SISA.`,
+      "string.base": `Merci de saisir la refacturation de charges à la SISA.`,
+      "any.required": `Merci de saisir la refacturation de charges à la SISA.`,
     }),
     loyerAnnuel: Joi.number().required().messages({
       "number.empty": `Merci de saisir le loyer annuel du pôle.`,
