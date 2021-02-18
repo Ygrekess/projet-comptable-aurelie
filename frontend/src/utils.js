@@ -216,6 +216,52 @@ const calculRepartitionTaxeSalaire = (
   }
 };
 
+const calculRepartitionRefSisa = (
+  totalRefSisa = null,
+  repartition,
+  nombreTotalPrat = null,
+  fixe = null,
+  recettesAnnuellesPrat = null,
+  totalRecettesAnnuelles = null,
+  nombreHeuresSalarie = null,
+  totalHeuresSalarie = null,
+  coefSurfaceC = null
+) => {
+  console.log(
+    totalRefSisa,
+    repartition,
+    nombreTotalPrat,
+    fixe,
+    recettesAnnuellesPrat,
+    totalRecettesAnnuelles,
+    (nombreHeuresSalarie = null),
+    (totalHeuresSalarie = null),
+    coefSurfaceC
+  );
+  switch (repartition) {
+    case "partsEgales":
+      return (totalRefSisa / nombreTotalPrat).toFixed(2);
+    case "ponderation":
+      const ponde =
+        Number(fixe) +
+        (totalRefSisa - Number(fixe) * nombreTotalPrat) *
+          (1 / (1 + 1)) *
+          coefSurfaceC +
+        (totalRefSisa - Number(fixe) * nombreTotalPrat) *
+          (1 / (1 + 1)) *
+          (recettesAnnuellesPrat / totalRecettesAnnuelles);
+      return Number(ponde).toFixed(2);
+    case "coefSurface":
+      return Number(totalRefSisa * coefSurfaceC).toFixed(2);
+    case "recettes":
+      return Number(
+        (totalRefSisa * recettesAnnuellesPrat) / totalRecettesAnnuelles
+      ).toFixed(2);
+    default:
+      break;
+  }
+};
+
 const formatDate = (date) => {
   const dateT = date.split("T")[0];
   const day =
@@ -230,5 +276,6 @@ export {
   calculRepartitionSurfaceNonRep,
   calculRepartitionSalaire,
   calculRepartitionTaxeSalaire,
+  calculRepartitionRefSisa,
   formatDate,
 };

@@ -122,7 +122,7 @@ export default function ModalAddSpecialite() {
           />
         </div>
         <div>
-          <label>Nombre de salariés en ETP</label>
+          <label>Personnel d'accueil/secrétariat (heure)</label>
           <input
             name="numbSalariesETP"
             className={errors.numbSalariesETP && "error"}
