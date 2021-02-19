@@ -1,8 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import {
+  userInfosReducer,
   userLoginReducer,
   userRegisterReducer,
+  userUpdatePasswordReducer,
+  userUpdateReducer,
 } from "./1-reducers/userReducers";
 import Cookie from "js-cookie";
 import {
@@ -36,6 +39,9 @@ const initialState = {
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userInfos: userInfosReducer,
+  userUpdate: userUpdateReducer,
+  userUpdatePassword: userUpdatePasswordReducer,
   allPolesGet: allPolesGetReducer,
   poleSelected: onePoleGetReducer,
   poleAdd: poleAddReducer,

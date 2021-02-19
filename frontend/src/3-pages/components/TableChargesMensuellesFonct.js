@@ -1,11 +1,15 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import {
   calculRepartitionCharge,
   calculRepartitionSalaire,
   calculRepartitionTaxeSalaire,
   calculRepartitionRefSisa,
   repartitionName,
+  calculRepartitionSurface,
+  calculRepartitionSurfaceNonRep,
+  formatDate,
 } from "../../utils";
+import { useReactToPrint } from "react-to-print";
 
 export default function TableChargesMensuellesFonct({
   pole,
@@ -511,316 +515,454 @@ export default function TableChargesMensuellesFonct({
     return () => {};
   }, [declarationChoosed, loading]);
 
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    documentTitle: `${pole.name}`,
+    content: () => componentRef.current,
+  });
   return (
     <Fragment>
-      <table border="1">
-        <caption> </caption>
-        <thead>
-          <tr>
-            <th className="title">
-              Charges mensuelles de fonctionnement par praticien
-            </th>
-            <th className="">Total</th>
-            <th className="">Mode de répartition</th>
-            {specialites.map((specialite, i) => (
-              <th key={i} className="">
-                {specialite.name}
-              </th>
-            ))}
-            <th>Total annuel</th>
-            <th>Dont fixe</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allCharges.map((charge, i) => (
-            <tr key={i}>
-              <th> {charge.title} </th>
-              <td>{charge.total}</td>
-              <td>{repartitionName(charge.repartition)}</td>
+      <div className="table-container" ref={componentRef}>
+        <div className="header-print">
+          <h3>{pole.name}</h3>
+          <h4>{pole.address}</h4>
+          <h4>{pole.postalCode}</h4>
+          <h4>{pole.city}</h4>
+          <h1>Déclaration du {formatDate(declarationChoosed.date)}</h1>
+        </div>
+        <div className="button-print">
+          <button onClick={() => handlePrint()}>Télécharger</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th className="column-name"> </th>
+              <th className="column-total"> Total </th>
+              <th className="column-repartition"> Mode de répartition </th>
               {specialites.map((specialite, i) => (
-                <td key={i}>{charge.name[i]}</td>
+                <th className="column-praticien" key={i}>
+                  {specialite.name}
+                </th>
               ))}
-              <td className="total-charge-annuel">
+              <th className="column-total-annuel">Total annuel</th>
+              <th className="column-fixe">Fixe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th className="column-name"> Nombre </th>
+              <td className="column-total">
+                {specialites.reduce((totalValue, currentValue) => {
+                  return totalValue + currentValue.nombre;
+                }, 0)}
+              </td>
+              <td> </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{specialite.nombre}</td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Recettes annuelles stat. </th>
+              <td className="column-total">
+                {Math.ceil(
+                  specialites.reduce((totalValue, currentValue) => {
+                    return (
+                      totalValue + currentValue.honoraires * currentValue.nombre
+                    );
+                  }, 0)
+                )}
+              </td>
+              <td> Pour 1 praticien </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{specialite.honoraires}</td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Surface propre prof. </th>
+              <td className="column-total">
+                {Math.ceil(
+                  specialites.reduce((totalValue, currentValue) => {
+                    return totalValue + currentValue.surfPropreProf;
+                  }, 0)
+                )}
+              </td>
+              <td> Par corps de métier </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{specialite.surfPropreProf}</td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Surface communs </th>
+              <td className="column-total">
+                {" "}
+                {Math.ceil(pole.surfaceCommuns)}{" "}
+              </td>
+              <td> {repartitionName(pole.repartitionSurfCommuns)} </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {calculRepartitionSurface(
+                    pole.repartitionSurfCommuns,
+                    pole.surfaceCommuns,
+                    specialite.surfPropreProf,
+                    Math.ceil(pole.surfaceTotale - pole.surfaceCommuns),
+                    specialite.honoraires,
+                    specialites.reduce((totalValue, currentValue) => {
+                      return (
+                        totalValue +
+                        currentValue.honoraires * currentValue.nombre
+                      );
+                    }, 0),
+                    specialites.reduce((totalValue, currentValue) => {
+                      return totalValue + currentValue.nombre;
+                    }, 0),
+                    specialite.nombre
+                  )}
+                </td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name">
+                {" "}
+                Surface profession non représentée{" "}
+              </th>
+              <td className="column-total">
+                {" "}
+                {Math.ceil(pole.surfaceProfNonRepr)}{" "}
+              </td>
+              <td> {repartitionName(pole.repartitionSurfaceProfNonRepr)} </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {calculRepartitionSurfaceNonRep(
+                    pole.repartitionSurfaceProfNonRepr,
+                    specialite.surfaceCommuns,
+                    specialite.surfPropreProf,
+                    pole.surfaceProfNonRepr,
+                    pole.surfaceTotale,
+                    specialite.honoraires,
+                    specialites.reduce((totalValue, currentValue) => {
+                      return (
+                        totalValue +
+                        currentValue.honoraires * currentValue.nombre
+                      );
+                    }, 0),
+                    specialites.reduce((totalValue, currentValue) => {
+                      return totalValue + currentValue.nombre;
+                    }, 0),
+                    specialite.name,
+                    specialite.nombre
+                  )}
+                </td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Surface totale </th>
+              <td className="column-total">
+                {" "}
+                {Math.ceil(pole.surfaceTotale)}{" "}
+              </td>
+              <td> Par corps de métier </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(specialite.surfPropreProf + specialite.surfCommuns).toFixed(
+                    2
+                  )}
+                </td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Surface par praticien </th>
+              <td className="column-total"></td>
+              <td> Pour 1 praticien </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{specialite.surfPraticien.toFixed(2)}</td>
+              ))}
+              <td className="column-total-annuel">
+                {specialites
+                  .reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      currentValue.surfPraticien * currentValue.nombre
+                    );
+                  }, 0)
+                  .toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name">
+                Coef. surface par praticien pr répartition des loyers
+              </th>
+              <td className="column-total"></td>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(specialite.coefSurfPraticienLoyer * 100).toFixed(2) + "%"}
+                </td>
+              ))}
+              <td className="column-total-annuel">
+                {specialites
+                  .reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      currentValue.coefSurfPraticienLoyer * currentValue.nombre
+                    );
+                  }, 0)
+                  .toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name">
+                Coef. surface par praticien//surface facturée pr rép. autres
+                charges
+              </th>
+              <td className="column-total"></td>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(specialite.coefSurfPraticienAutresCharge * 100).toFixed(2) +
+                    "%"}
+                </td>
+              ))}
+              <td className="column-total-annuel">
+                {specialites
+                  .reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      currentValue.coefSurfPraticienAutresCharge *
+                        currentValue.nombre
+                    );
+                  }, 0)
+                  .toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <caption> </caption>
+          <thead>
+            <tr>
+              <th className="column-name">
+                Charges mensuelles de fonctionnement par praticien
+              </th>
+              <th className="column-total">Total</th>
+              <th className="column-repartition">Mode de répartition</th>
+              {specialites.map((specialite, i) => (
+                <th key={i} className="column-praticien">
+                  {specialite.name}
+                </th>
+              ))}
+              <th className="column-total-annuel">Total annuel</th>
+              <th className="column-fixe">Dont fixe</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allCharges.map((charge, i) => (
+              <tr key={i}>
+                <th className="column-name"> {charge.title} </th>
+                <td className="column-total">{charge.total}</td>
+                <td>{repartitionName(charge.repartition)}</td>
+                {specialites.map((specialite, i) => (
+                  <td key={i}>{charge.name[i]}</td>
+                ))}
+                <td className="column-total-annuel">
+                  {(
+                    specialites.reduce((totalValue, currentValue, i) => {
+                      return totalValue + currentValue.nombre * charge.name[i];
+                    }, 0) * 12
+                  ).toFixed(2)}
+                </td>
+                <td>
+                  {charge.repartition === "ponderation"
+                    ? (
+                        (charge.total /
+                          specialites.reduce((totalValue, currentValue) => {
+                            return totalValue + currentValue.nombre;
+                          }, 0)) *
+                        2
+                      ).toFixed(2)
+                    : ""}
+                </td>
+              </tr>
+            ))}
+            <tr>
+              <th className="column-name"> Frais de fonctionnement mensuel </th>
+              <td className="column-total">
+                {allCharges.reduce((totalValue, currentValue, i) => {
+                  return totalValue + Number(currentValue.total);
+                }, 0)}
+              </td>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {allCharges
+                    .reduce((totalValue, currentValue) => {
+                      return totalValue + Number(currentValue.name[i]);
+                    }, 0)
+                    .toFixed(2)}
+                </td>
+              ))}
+              <td className="column-total-annuel">{totalAnnuel}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <caption> </caption>
+          <thead>
+            <tr>
+              <th className="column-name">
+                Charges mensuelles de personnel accueil et secrétariat par
+                praticien
+              </th>
+              <th className="column-total">Total</th>
+              <th className="column-repartition">Mode de répartition</th>
+              {specialites.map((specialite, i) => (
+                <th key={i} className="column-praticien">
+                  {specialite.name}
+                </th>
+              ))}
+              <th className="column-total-annuel">Total annuel</th>
+              <th className="column-fixe">Dont fixe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th className="column-name"> Nombre salariés en ETP </th>
+              <td className="column-total">{salarieETP}</td>
+              <td>
+                {specialites.reduce((totalValue, currentValue, i) => {
+                  return (
+                    totalValue +
+                    Number(currentValue.numbSalariesETP) *
+                      Number(currentValue.nombre)
+                  );
+                }, 0) + " heures/semaine à répartir"}
+              </td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{specialite.numbSalariesETP}</td>
+              ))}
+              <td className="column-total-annuel">
+                {specialites.reduce((totalValue, currentValue, i) => {
+                  return (
+                    totalValue +
+                    Number(currentValue.numbSalariesETP) *
+                      Number(currentValue.nombre)
+                  );
+                }, 0) * 52}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Salaire brut </th>
+              <td className="column-total">{totalSalaireBrut}</td>
+              <td>{repartitionName(pole.repartitionSalaire)}</td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{salaireBrut[i]}</td>
+              ))}
+              <td className="column-total-annuel">
                 {(
                   specialites.reduce((totalValue, currentValue, i) => {
-                    return totalValue + currentValue.nombre * charge.name[i];
+                    return (
+                      totalValue +
+                      Number(currentValue.nombre) * Number(salaireBrut[i])
+                    );
                   }, 0) * 12
                 ).toFixed(2)}
               </td>
               <td>
-                {charge.repartition === "ponderation"
+                {pole.repartitionSalaire === "ponderation"
+                  ? ((totalSalaireBrut / numbTotalPrat) * 2).toFixed(2)
+                  : ""}
+              </td>
+            </tr>
+            <tr>
+              <th className="column-name"> Charges patronales </th>
+              <td className="column-total">
+                {(totalSalaireBrut * (pole.chargesSociales / 100)).toFixed(2)}
+              </td>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(salaireBrut[i] * (pole.chargesSociales / 100)).toFixed(2)}
+                </td>
+              ))}
+              <td className="column-total-annuel">
+                {(
+                  specialites.reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      Number(currentValue.nombre) *
+                        (Number(salaireBrut[i]) * (pole.chargesSociales / 100))
+                    );
+                  }, 0) * 12
+                ).toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Taxe sur les salaires </th>
+              <td className="column-total">
+                {(1467.1 * (salarieETP / 12)).toFixed(2)}
+              </td>
+              <td>{repartitionName(pole.repartitionTaxeSalaires)}</td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{taxeSalaireBrut[i]}</td>
+              ))}
+              <td className="column-total-annuel">
+                {(
+                  specialites.reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      Number(currentValue.nombre) * Number(taxeSalaireBrut[i])
+                    );
+                  }, 0) * 12
+                ).toFixed(2)}
+              </td>
+              <td>
+                {pole.repartitionTaxeSalaires === "ponderation"
                   ? (
-                      (charge.total /
-                        specialites.reduce((totalValue, currentValue) => {
-                          return totalValue + currentValue.nombre;
-                        }, 0)) *
+                      ((1467.1 * (salarieETP / 12)).toFixed(2) /
+                        numbTotalPrat) *
                       2
                     ).toFixed(2)
                   : ""}
               </td>
             </tr>
-          ))}
-          <tr>
-            <th> Frais de fonctionnement mensuel </th>
-            <td>
-              {allCharges.reduce((totalValue, currentValue, i) => {
-                return totalValue + Number(currentValue.total);
-              }, 0)}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
-                {allCharges
-                  .reduce((totalValue, currentValue) => {
-                    return totalValue + Number(currentValue.name[i]);
-                  }, 0)
-                  .toFixed(2)}
-              </td>
-            ))}
-            <td>{totalAnnuel}</td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table border="1">
-        <caption> </caption>
-        <thead>
-          <tr>
-            <th className="title">
-              Charges mensuelles de personnel accueil et secrétariat par
-              praticien
-            </th>
-            <th className="">Total</th>
-            <th className="">Mode de répartition</th>
-            {specialites.map((specialite, i) => (
-              <th key={i} className="">
-                {specialite.name}
-              </th>
-            ))}
-            <th>Total annuel</th>
-            <th>Dont fixe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th> Nombre salariés en ETP </th>
-            <td>{salarieETP}</td>
-            <td>
-              {specialites.reduce((totalValue, currentValue, i) => {
-                return (
-                  totalValue +
-                  Number(currentValue.numbSalariesETP) *
-                    Number(currentValue.nombre)
-                );
-              }, 0) + " heures/semaine à répartir"}
-            </td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>{specialite.numbSalariesETP}</td>
-            ))}
-            <td>
-              {specialites.reduce((totalValue, currentValue, i) => {
-                return (
-                  totalValue +
-                  Number(currentValue.numbSalariesETP) *
-                    Number(currentValue.nombre)
-                );
-              }, 0) * 52}
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <th> Salaire brut </th>
-            <td>{totalSalaireBrut}</td>
-            <td>{repartitionName(pole.repartitionSalaire)}</td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>{salaireBrut[i]}</td>
-            ))}
-            <td>
-              {(
-                specialites.reduce((totalValue, currentValue, i) => {
-                  return (
-                    totalValue +
-                    Number(currentValue.nombre) * Number(salaireBrut[i])
-                  );
-                }, 0) * 12
-              ).toFixed(2)}
-            </td>
-            <td>
-              {pole.repartitionSalaire === "ponderation"
-                ? ((totalSalaireBrut / numbTotalPrat) * 2).toFixed(2)
-                : ""}
-            </td>
-          </tr>
-          <tr>
-            <th> Charges patronales </th>
-            <td>
-              {(totalSalaireBrut * (pole.chargesSociales / 100)).toFixed(2)}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
-                {(salaireBrut[i] * (pole.chargesSociales / 100)).toFixed(2)}
-              </td>
-            ))}
-            <td>
-              {(
-                specialites.reduce((totalValue, currentValue, i) => {
-                  return (
-                    totalValue +
-                    Number(currentValue.nombre) *
-                      (Number(salaireBrut[i]) * (pole.chargesSociales / 100))
-                  );
-                }, 0) * 12
-              ).toFixed(2)}
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <th> Taxe sur les salaires </th>
-            <td>{(1467.1 * (salarieETP / 12)).toFixed(2)}</td>
-            <td>{repartitionName(pole.repartitionTaxeSalaires)}</td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>{taxeSalaireBrut[i]}</td>
-            ))}
-            <td>
-              {(
-                specialites.reduce((totalValue, currentValue, i) => {
-                  return (
-                    totalValue +
-                    Number(currentValue.nombre) * Number(taxeSalaireBrut[i])
-                  );
-                }, 0) * 12
-              ).toFixed(2)}
-            </td>
-            <td>
-              {pole.repartitionTaxeSalaires === "ponderation"
-                ? (
-                    ((1467.1 * (salarieETP / 12)).toFixed(2) / numbTotalPrat) *
-                    2
-                  ).toFixed(2)
-                : ""}
-            </td>
-          </tr>
-          <tr>
-            <th> Coût salarial </th>
-            <td>
-              {(
-                Number(totalSalaireBrut) +
-                Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
-                Number(1467.1 * (salarieETP / 12))
-              ).toFixed(2)}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
+            <tr>
+              <th className="column-name"> Coût salarial </th>
+              <td className="column-total">
                 {(
-                  Number(salaireBrut[i]) +
-                  Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
-                  Number(taxeSalaireBrut[i])
+                  Number(totalSalaireBrut) +
+                  Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
+                  Number(1467.1 * (salarieETP / 12))
                 ).toFixed(2)}
               </td>
-            ))}
-            <td>
-              {(
-                specialites.reduce((totalValue, currentValue, i) => {
-                  return (
-                    totalValue +
-                    Number(salaireBrut[i] * currentValue.nombre) +
-                    Number(
-                      salaireBrut[i] *
-                        (pole.chargesSociales / 100) *
-                        currentValue.nombre
-                    ) +
-                    Number(taxeSalaireBrut[i] * currentValue.nombre)
-                  );
-                }, 0) * 12
-              ).toFixed(2)}
-            </td>
-            <td></td>
-          </tr>
-
-          <tr></tr>
-
-          <tr>
-            <th> Refacturation charges à la SISA (forfaitaire) </th>
-            <td>{200 * 12}</td>
-            <td>{repartitionName(pole.repartitionRefChargeSisa)}</td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>{refSisa[i]}</td>
-            ))}
-            <td>
-              {(
-                specialites.reduce((totalValue, currentValue, i) => {
-                  return (
-                    totalValue +
-                    Number(currentValue.nombre) * Number(refSisa[i])
-                  );
-                }, 0) * 12
-              ).toFixed(2)}
-            </td>
-            <td>
-              {pole.repartitionRefChargeSisa === "ponderation"
-                ? (
-                    ((200 * 12) /
-                      specialites.reduce((totalValue, currentValue, i) => {
-                        return totalValue + Number(currentValue.nombre);
-                      }, 0)) *
-                    2
-                  ).toFixed(2)
-                : ""}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table border="1">
-        <caption> </caption>
-        <thead>
-          <tr>
-            <th className="title"></th>
-            <th className="">Total</th>
-            <th className="">Mode de répartition</th>
-            {specialites.map((specialite, i) => (
-              <th key={i} className="">
-                {specialite.name}
-              </th>
-            ))}
-            <th>Total annuel</th>
-            <th>Dont fixe</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th> Coût total mensuel net </th>
-            <td>
-              {(
-                Number(totalSalaireBrut) +
-                Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
-                Number(1467.1 * (salarieETP / 12)) +
-                allCharges.reduce((totalValue, currentValue, i) => {
-                  return totalValue + Number(currentValue.total);
-                }, 0)
-              ).toFixed(2)}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
-                {Number(
-                  allCharges.reduce((totalValue, currentValue) => {
-                    return totalValue + Number(currentValue.name[i]);
-                  }, 0) +
-                    (Number(salaireBrut[i]) +
-                      Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
-                      Number(taxeSalaireBrut[i])) -
-                    refSisa[i]
-                ).toFixed(2)}
-              </td>
-            ))}
-            <td>
-              {(
-                Number(totalAnnuel) +
-                Number(
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(
+                    Number(salaireBrut[i]) +
+                    Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
+                    Number(taxeSalaireBrut[i])
+                  ).toFixed(2)}
+                </td>
+              ))}
+              <td className="column-total-annuel">
+                {(
                   specialites.reduce((totalValue, currentValue, i) => {
                     return (
                       totalValue +
@@ -833,42 +975,91 @@ export default function TableChargesMensuellesFonct({
                       Number(taxeSalaireBrut[i] * currentValue.nombre)
                     );
                   }, 0) * 12
-                )
-              ).toFixed(2)}
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <th> Coût total annuel net </th>
-            <td>
-              {(
-                (Number(totalSalaireBrut) +
+                ).toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+
+            <tr>
+              <th className="column-name">
+                {" "}
+                Refacturation charges à la SISA (forfaitaire){" "}
+              </th>
+              <td className="column-total">{200 * 12}</td>
+              <td>{repartitionName(pole.repartitionRefChargeSisa)}</td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>{refSisa[i]}</td>
+              ))}
+              <td className="column-total-annuel">
+                {(
+                  specialites.reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      Number(currentValue.nombre) * Number(refSisa[i])
+                    );
+                  }, 0) * 12
+                ).toFixed(2)}
+              </td>
+              <td>
+                {pole.repartitionRefChargeSisa === "ponderation"
+                  ? (
+                      ((200 * 12) /
+                        specialites.reduce((totalValue, currentValue, i) => {
+                          return totalValue + Number(currentValue.nombre);
+                        }, 0)) *
+                      2
+                    ).toFixed(2)
+                  : ""}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          <caption> </caption>
+          <thead>
+            <tr>
+              <th className="column-name"></th>
+              <th className="column-total">Total</th>
+              <th className="column-repartition">Mode de répartition</th>
+              {specialites.map((specialite, i) => (
+                <th key={i} className="column-praticien">
+                  {specialite.name}
+                </th>
+              ))}
+              <th className="column-total-annuel">Total annuel</th>
+              <th className="column-fixe">Dont fixe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th className="column-name"> Coût total mensuel net </th>
+              <td className="column-total">
+                {(
+                  Number(totalSalaireBrut) +
                   Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
                   Number(1467.1 * (salarieETP / 12)) +
                   allCharges.reduce((totalValue, currentValue, i) => {
                     return totalValue + Number(currentValue.total);
-                  }, 0)) *
-                12
-              ).toFixed(2)}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
-                {(
-                  (allCharges.reduce((totalValue, currentValue) => {
-                    return totalValue + Number(currentValue.name[i]);
-                  }, 0) +
-                    (Number(salaireBrut[i]) +
-                      Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
-                      Number(taxeSalaireBrut[i])) -
-                    refSisa[i]) *
-                  12
+                  }, 0)
                 ).toFixed(2)}
               </td>
-            ))}
-            <td>
-              {(
-                (Number(totalAnnuel) +
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {Number(
+                    allCharges.reduce((totalValue, currentValue) => {
+                      return totalValue + Number(currentValue.name[i]);
+                    }, 0) +
+                      (Number(salaireBrut[i]) +
+                        Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
+                        Number(taxeSalaireBrut[i])) -
+                      refSisa[i]
+                  ).toFixed(2)}
+                </td>
+              ))}
+              <td className="column-total-annuel">
+                {(
+                  Number(totalAnnuel) +
                   Number(
                     specialites.reduce((totalValue, currentValue, i) => {
                       return (
@@ -882,82 +1073,168 @@ export default function TableChargesMensuellesFonct({
                         Number(taxeSalaireBrut[i] * currentValue.nombre)
                       );
                     }, 0) * 12
-                  )) *
-                12
-              ).toFixed(2)}
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <th> Répartition des charges en % </th>
-            <td>
-              {(
-                specialites.reduce((totalValue, currentValue, i) => {
-                  return (
-                    totalValue +
-                    Number(
-                      (((allCharges.reduce((totalValue, currentValue) => {
-                        return totalValue + Number(currentValue.name[i]);
-                      }, 0) +
-                        (Number(salaireBrut[i]) +
-                          Number(
-                            salaireBrut[i] * (pole.chargesSociales / 100)
-                          ) +
-                          Number(taxeSalaireBrut[i])) -
-                        refSisa[i]) *
-                        12) /
-                        ((Number(totalSalaireBrut) +
-                          Number(
-                            totalSalaireBrut * (pole.chargesSociales / 100)
-                          ) +
-                          Number(1467.1 * (salarieETP / 12)) +
-                          allCharges.reduce((totalValue, currentValue, i) => {
-                            return totalValue + Number(currentValue.total);
-                          }, 0)) *
-                          12)) *
-                        currentValue.nombre
-                    )
-                  );
-                }, 0) * 100
-              ).toFixed(2) + "%"}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
+                  )
+                ).toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Coût total annuel net </th>
+              <td className="column-total">
                 {(
-                  (((allCharges.reduce((totalValue, currentValue) => {
-                    return totalValue + Number(currentValue.name[i]);
-                  }, 0) +
-                    (Number(salaireBrut[i]) +
-                      Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
-                      Number(taxeSalaireBrut[i])) -
-                    refSisa[i]) *
+                  (Number(totalSalaireBrut) +
+                    Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
+                    Number(1467.1 * (salarieETP / 12)) +
+                    allCharges.reduce((totalValue, currentValue, i) => {
+                      return totalValue + Number(currentValue.total);
+                    }, 0)) *
+                  12
+                ).toFixed(2)}
+              </td>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(
+                    (allCharges.reduce((totalValue, currentValue) => {
+                      return totalValue + Number(currentValue.name[i]);
+                    }, 0) +
+                      (Number(salaireBrut[i]) +
+                        Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
+                        Number(taxeSalaireBrut[i])) -
+                      refSisa[i]) *
+                    12
+                  ).toFixed(2)}
+                </td>
+              ))}
+              <td className="column-total-annuel">
+                {(
+                  (Number(totalAnnuel) +
+                    Number(
+                      specialites.reduce((totalValue, currentValue, i) => {
+                        return (
+                          totalValue +
+                          Number(salaireBrut[i] * currentValue.nombre) +
+                          Number(
+                            salaireBrut[i] *
+                              (pole.chargesSociales / 100) *
+                              currentValue.nombre
+                          ) +
+                          Number(taxeSalaireBrut[i] * currentValue.nombre)
+                        );
+                      }, 0) * 12
+                    )) *
+                  12
+                ).toFixed(2)}
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Répartition des charges en % </th>
+              <td className="column-total">
+                {(
+                  specialites.reduce((totalValue, currentValue, i) => {
+                    return (
+                      totalValue +
+                      Number(
+                        (((allCharges.reduce((totalValue, currentValue) => {
+                          return totalValue + Number(currentValue.name[i]);
+                        }, 0) +
+                          (Number(salaireBrut[i]) +
+                            Number(
+                              salaireBrut[i] * (pole.chargesSociales / 100)
+                            ) +
+                            Number(taxeSalaireBrut[i])) -
+                          refSisa[i]) *
+                          12) /
+                          ((Number(totalSalaireBrut) +
+                            Number(
+                              totalSalaireBrut * (pole.chargesSociales / 100)
+                            ) +
+                            Number(1467.1 * (salarieETP / 12)) +
+                            allCharges.reduce((totalValue, currentValue, i) => {
+                              return totalValue + Number(currentValue.total);
+                            }, 0)) *
+                            12)) *
+                          currentValue.nombre
+                      )
+                    );
+                  }, 0) * 100
+                ).toFixed(2) + "%"}
+              </td>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(
+                    (((allCharges.reduce((totalValue, currentValue) => {
+                      return totalValue + Number(currentValue.name[i]);
+                    }, 0) +
+                      (Number(salaireBrut[i]) +
+                        Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
+                        Number(taxeSalaireBrut[i])) -
+                      refSisa[i]) *
+                      12) /
+                      ((Number(totalSalaireBrut) +
+                        Number(
+                          totalSalaireBrut * (pole.chargesSociales / 100)
+                        ) +
+                        Number(1467.1 * (salarieETP / 12)) +
+                        allCharges.reduce((totalValue, currentValue, i) => {
+                          return totalValue + Number(currentValue.total);
+                        }, 0)) *
+                        12)) *
+                    100
+                  ).toFixed(2) + "%"}
+                </td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> % Charges/Recettes </th>
+              <td className="column-total">
+                {(
+                  (((Number(totalSalaireBrut) +
+                    Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
+                    Number(1467.1 * (salarieETP / 12)) +
+                    allCharges.reduce((totalValue, currentValue, i) => {
+                      return totalValue + Number(currentValue.total);
+                    }, 0)) *
                     12) /
-                    ((Number(totalSalaireBrut) +
-                      Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
-                      Number(1467.1 * (salarieETP / 12)) +
-                      allCharges.reduce((totalValue, currentValue, i) => {
-                        return totalValue + Number(currentValue.total);
-                      }, 0)) *
-                      12)) *
+                    Math.ceil(
+                      specialites.reduce((totalValue, currentValue) => {
+                        return (
+                          totalValue +
+                          currentValue.honoraires * currentValue.nombre
+                        );
+                      }, 0)
+                    )) *
                   100
                 ).toFixed(2) + "%"}
               </td>
-            ))}
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th> % Charges/Recettes </th>
-            <td>
-              {(
-                (((Number(totalSalaireBrut) +
-                  Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
-                  Number(1467.1 * (salarieETP / 12)) +
-                  allCharges.reduce((totalValue, currentValue, i) => {
-                    return totalValue + Number(currentValue.total);
-                  }, 0)) *
-                  12) /
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(
+                    (((allCharges.reduce((totalValue, currentValue) => {
+                      return totalValue + Number(currentValue.name[i]);
+                    }, 0) +
+                      (Number(salaireBrut[i]) +
+                        Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
+                        Number(taxeSalaireBrut[i])) -
+                      refSisa[i]) *
+                      12) /
+                      specialite.honoraires) *
+                    100
+                  ).toFixed(2) + "%"}
+                </td>
+              ))}
+              <td className="column-total-annuel"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th className="column-name"> Résultat </th>
+              <td className="column-total">
+                {(
                   Math.ceil(
                     specialites.reduce((totalValue, currentValue) => {
                       return (
@@ -965,71 +1242,38 @@ export default function TableChargesMensuellesFonct({
                         currentValue.honoraires * currentValue.nombre
                       );
                     }, 0)
-                  )) *
-                100
-              ).toFixed(2) + "%"}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
-                {(
-                  (((allCharges.reduce((totalValue, currentValue) => {
-                    return totalValue + Number(currentValue.name[i]);
-                  }, 0) +
-                    (Number(salaireBrut[i]) +
-                      Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
-                      Number(taxeSalaireBrut[i])) -
-                    refSisa[i]) *
-                    12) /
-                    specialite.honoraires) *
-                  100
-                ).toFixed(2) + "%"}
-              </td>
-            ))}
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <th> Résultat </th>
-            <td>
-              {(
-                Math.ceil(
-                  specialites.reduce((totalValue, currentValue) => {
-                    return (
-                      totalValue + currentValue.honoraires * currentValue.nombre
-                    );
-                  }, 0)
-                ) -
-                (Number(totalSalaireBrut) +
-                  Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
-                  Number(1467.1 * (salarieETP / 12)) +
-                  allCharges.reduce((totalValue, currentValue, i) => {
-                    return totalValue + Number(currentValue.total);
-                  }, 0)) *
-                  12
-              ).toFixed(2)}
-            </td>
-            <td></td>
-            {specialites.map((specialite, i) => (
-              <td key={i}>
-                {(
-                  specialite.honoraires -
-                  (allCharges.reduce((totalValue, currentValue) => {
-                    return totalValue + Number(currentValue.name[i]);
-                  }, 0) +
-                    (Number(salaireBrut[i]) +
-                      Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
-                      Number(taxeSalaireBrut[i])) -
-                    refSisa[i]) *
+                  ) -
+                  (Number(totalSalaireBrut) +
+                    Number(totalSalaireBrut * (pole.chargesSociales / 100)) +
+                    Number(1467.1 * (salarieETP / 12)) +
+                    allCharges.reduce((totalValue, currentValue, i) => {
+                      return totalValue + Number(currentValue.total);
+                    }, 0)) *
                     12
                 ).toFixed(2)}
               </td>
-            ))}
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+              <td></td>
+              {specialites.map((specialite, i) => (
+                <td key={i}>
+                  {(
+                    specialite.honoraires -
+                    (allCharges.reduce((totalValue, currentValue) => {
+                      return totalValue + Number(currentValue.name[i]);
+                    }, 0) +
+                      (Number(salaireBrut[i]) +
+                        Number(salaireBrut[i] * (pole.chargesSociales / 100)) +
+                        Number(taxeSalaireBrut[i])) -
+                      refSisa[i]) *
+                      12
+                  ).toFixed(2)}
+                </td>
+              ))}
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </Fragment>
   );
 }

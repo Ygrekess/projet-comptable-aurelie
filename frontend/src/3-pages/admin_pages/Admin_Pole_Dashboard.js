@@ -8,6 +8,7 @@ import ReactModal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPole } from "../../2-actions/poleActions";
 import LoadingSpinner from "../components/LoadingSpinner";
+import GoBack from "../components/GoBack";
 
 export default function Admin_Pole_Dashboard(props) {
   const [addPole, setAddPole] = useState(false);
@@ -41,12 +42,7 @@ export default function Admin_Pole_Dashboard(props) {
           >
             <ModalAddPole />
           </ReactModal>
-          <div className="arrow-header">
-            <Link to={"/dashboard/admin/"}>
-              <IoMdArrowRoundBack className="arrow-back" size={40} />
-            </Link>
-            <h1>Liste des pôles</h1>
-          </div>
+          <GoBack link={"/dashboard/admin"} pageName={"Liste des pôles"} />
           <div className="admin-pole-items-container">
             {poles.map((pole, i) => (
               <PoleItem key={i} pole={pole} />

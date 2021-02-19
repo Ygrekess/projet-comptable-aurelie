@@ -21,77 +21,62 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
       pole: pole._id,
       loyer: {
         total: data.loyer,
-        fixe: data.loyerFixe,
         repartition: data.loyerRep,
       },
       electricite: {
         total: data.electricite,
-        fixe: data.electriciteFixe,
         repartition: data.electriciteRep,
       },
       eau: {
         total: data.eau,
-        fixe: data.eauFixe,
         repartition: data.eauRep,
       },
       fournAdmin: {
         total: data.fournAdmin,
-        fixe: data.fournAdmin,
         repartition: data.fournAdminRep,
       },
       fournEntr: {
         total: data.fournEntr,
-        fixe: data.fournEntrFixe,
         repartition: data.fournEntrRep,
       },
       menage: {
         total: data.menage,
-        fixe: data.menageFixe,
         repartition: data.menageRep,
       },
       assurance: {
         total: data.assurance,
-        fixe: data.assuranceFixe,
         repartition: data.assuranceRep,
       },
       honoraires: {
         total: data.honoraires,
-        fixe: data.honorairesFixe,
         repartition: data.honorairesRep,
       },
       annoncesInsertions: {
         total: data.annoncesInsertions,
-        fixe: data.annoncesInsertionsFixe,
         repartition: data.annoncesInsertionsRep,
       },
       fraisPostaux: {
         total: data.fraisPostaux,
-        fixe: data.fraisPostauxFixe,
         repartition: data.fraisPostauxRep,
       },
       internetTelephone: {
         total: data.internetTelephone,
-        fixe: data.internetTelephoneFixe,
         repartition: data.internetTelephoneRep,
       },
       fraisBancaires: {
         total: data.fraisBancaires,
-        fixe: data.fraisBancairesFixe,
         repartition: data.fraisBancairesRep,
       },
       cfe: {
         total: data.cfe,
-        fixe: data.cfeFixe,
         repartition: data.cfeRep,
       },
       receptionDeplacement: {
         total: data.receptionDeplacement,
-        fixe: data.receptionDeplacementFixe,
         repartition: data.receptionDeplacementRep,
       },
       petitEquipement: {
         total: data.petitEquipement,
-        fixe: data.petitEquipementFixe,
         repartition: data.petitEquipementRep,
       },
     };
@@ -131,15 +116,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="loyerFixe"
-              className={errors.loyerFixe && "error"}
-              defaultValue={declaration.loyer.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="loyerRep">Mode de répartition</label>
             <select
               name="loyerRep"
@@ -166,15 +142,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="electriciteFixe"
-              className={errors.electriciteFixe && "error"}
-              defaultValue={declaration.electricite.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="electriciteRep">Mode de répartition</label>
             <select
               name="electriciteRep"
@@ -197,15 +164,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="eau"
               className={errors.eau && "error"}
               defaultValue={declaration.eau.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="eauFixe"
-              className={errors.eauFixe && "error"}
-              defaultValue={declaration.eau.fixe}
               ref={register}
             />
           </div>
@@ -237,15 +195,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fournAdminFixe"
-              className={errors.fournAdminFixe && "error"}
-              defaultValue={declaration.fournAdmin.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="fournAdminRep">Mode de répartition</label>
             <select
               name="fournAdminRep"
@@ -269,15 +218,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="fournEntr"
               className={errors.fournEntr && "error"}
               defaultValue={declaration.fournEntr.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fournEntrFixe"
-              className={errors.fournEntrFixe && "error"}
-              defaultValue={declaration.fournEntr.fixe}
               ref={register}
             />
           </div>
@@ -309,15 +249,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="menageFixe"
-              className={errors.menageFixe && "error"}
-              defaultValue={declaration.menage.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="menageRep">Mode de répartition</label>
             <select
               name="menageRep"
@@ -341,15 +272,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="assurance"
               className={errors.assurance && "error"}
               defaultValue={declaration.assurance.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="assuranceFixe"
-              className={errors.assuranceFixe && "error"}
-              defaultValue={declaration.assurance.fixe}
               ref={register}
             />
           </div>
@@ -381,15 +303,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="honorairesFixe"
-              className={errors.honorairesFixe && "error"}
-              defaultValue={declaration.honoraires.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="honorairesRep">Mode de répartition</label>
             <select
               name="honorairesRep"
@@ -413,15 +326,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="annoncesInsertions"
               className={errors.annoncesInsertions && "error"}
               defaultValue={declaration.annoncesInsertions.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="annoncesInsertionsFixe"
-              className={errors.annoncesInsertionsFixe && "error"}
-              defaultValue={declaration.annoncesInsertions.fixe}
               ref={register}
             />
           </div>
@@ -453,15 +357,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fraisPostauxFixe"
-              className={errors.fraisPostauxFixe && "error"}
-              defaultValue={declaration.fraisPostaux.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="fraisPostauxRep">Mode de répartition</label>
             <select
               name="fraisPostauxRep"
@@ -485,15 +380,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="internetTelephone"
               className={errors.internetTelephone && "error"}
               defaultValue={declaration.internetTelephone.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="internetTelephoneFixe"
-              className={errors.internetTelephoneFixe && "error"}
-              defaultValue={declaration.internetTelephone.fixe}
               ref={register}
             />
           </div>
@@ -525,15 +411,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fraisBancairesFixe"
-              className={errors.fraisBancairesFixe && "error"}
-              defaultValue={declaration.fraisBancaires.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="fraisBancairesRep">Mode de répartition</label>
             <select
               name="fraisBancairesRep"
@@ -557,15 +434,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="cfe"
               className={errors.cfe && "error"}
               defaultValue={declaration.cfe.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="cfeFixe"
-              className={errors.cfeFixe && "error"}
-              defaultValue={declaration.cfe.fixe}
               ref={register}
             />
           </div>
@@ -597,15 +465,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="receptionDeplacementFixe"
-              className={errors.receptionDeplacementFixe && "error"}
-              defaultValue={declaration.receptionDeplacement.fixe}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="receptionDeplacementRep">Mode de répartition</label>
             <select
               name="receptionDeplacementRep"
@@ -629,15 +488,6 @@ export default function ModalUpdateDeclaration({ declaration, pole }) {
               name="petitEquipement"
               className={errors.petitEquipement && "error"}
               defaultValue={declaration.petitEquipement.total}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="petitEquipementFixe"
-              className={errors.petitEquipementFixe && "error"}
-              defaultValue={declaration.petitEquipement.fixe}
               ref={register}
             />
           </div>

@@ -227,17 +227,6 @@ const calculRepartitionRefSisa = (
   totalHeuresSalarie = null,
   coefSurfaceC = null
 ) => {
-  console.log(
-    totalRefSisa,
-    repartition,
-    nombreTotalPrat,
-    fixe,
-    recettesAnnuellesPrat,
-    totalRecettesAnnuelles,
-    (nombreHeuresSalarie = null),
-    (totalHeuresSalarie = null),
-    coefSurfaceC
-  );
   switch (repartition) {
     case "partsEgales":
       return (totalRefSisa / nombreTotalPrat).toFixed(2);

@@ -1,6 +1,8 @@
 /* User dashboard, Admin Dashboard */
 .dashboard-container {
-  width: 90vw;
+  min-width: 90vw;
+
+  width: auto;
   height: auto;
   background-color: #ffff;
   margin: 1rem auto;
@@ -89,26 +91,6 @@ h4 {
   min-height: 700px;
   width: 100%;
 }
-.arrow-header {
-  height: 5rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
-.arrow-header .arrow-back {
-  color: black;
-  cursor: pointer;
-  transition: 0.5s;
-}
-.arrow-header .arrow-back:hover {
-  transform: scale(1.2);
-}
-.arrow-header h1 {
-  color: thistle;
-  margin: 0;
-}
 .admin-pole-items-container {
   height: auto;
   width: 100%;
@@ -146,7 +128,8 @@ h4 {
   height: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Admin pole menu */
@@ -426,6 +409,230 @@ select {
   transform: scale(1.05);
   cursor: pointer;
 }
+
+/* Admin Analyse */
+.admin-pole-table {
+  min-width: 50rem;
+  width: 100%;
+}
+.admin-pole-table h2 {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  width: 100%;
+  text-align: left;
+  text-decoration: underline;
+}
+.admin-pole-table form {
+  width: 50%;
+  margin: auto;
+}
+.radio-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Hide the browser's default radio button */
+.radio-container input {
+  position: absolute;
+  z-index: 2;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radio-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio-container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio-container .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.table-container {
+  width: 100%;
+  display: block;
+}
+.table-container h3 {
+  text-align: left;
+  text-decoration: underline;
+}
+.header-print {
+  display: none;
+  text-align: left;
+  width: 90%;
+  margin: 0 auto 5rem auto;
+}
+.header-print h4,
+.header-print h6 {
+  margin: 0;
+}
+.header-print h1 {
+  margin: 4rem 0;
+}
+.button-print {
+  text-align: right;
+  width: 90%;
+  margin: 2rem auto;
+}
+.button-print button {
+  height: 3rem;
+  margin: 1rem auto;
+  background-color: orangered;
+  color: #ffff;
+  border: none;
+  outline: none;
+  font-size: 20px;
+  transition: 0.5s;
+  margin-bottom: 2rem;
+}
+table {
+  font-size: 15px;
+  margin: auto;
+  border-collapse: collapse;
+  width: 90%;
+  margin-bottom: 2rem;
+  page-break-inside: avoid;
+}
+thead tr th {
+  font-weight: 500;
+  text-transform: uppercase;
+  border-left: 4px solid #ffff;
+  border-right: 4px solid #ffff;
+  border-bottom: 4px solid thistle;
+}
+thead tr th:nth-child(1) {
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 4px solid #ffff;
+}
+tbody tr th {
+  text-align: left;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-top: 4px solid #ffff;
+  border-bottom: 4px solid #ffff;
+  /*   padding: 0.5rem;
+ */
+}
+td {
+  border: 4px solid thistle;
+  height: 2.5rem;
+  min-width: 4rem;
+  margin: none;
+}
+
+.column-name {
+  width: 20rem;
+  min-width: 20rem;
+  max-width: 20rem;
+  background-color: thistle;
+  color: #ffff;
+  padding: 0.5rem;
+}
+th.column-total {
+  width: 7rem;
+  font-weight: 800;
+  background-color: thistle;
+  color: #ffff;
+  padding: 0.5rem;
+}
+td.column-total {
+  width: 7rem;
+  font-weight: 800;
+  padding: 0.5rem;
+}
+.column-repartition {
+  width: 10rem;
+  background-color: thistle;
+  color: #ffff;
+  padding: 0.5rem;
+}
+.column-praticien {
+  /*   width: 4rem;
+ */
+  background-color: thistle;
+  color: #ffff;
+  /*   padding: 0.5rem; */
+}
+th.column-total-annuel {
+  width: 5rem;
+  font-weight: 800;
+  background-color: thistle;
+  color: #ffff;
+  padding: 0.5rem;
+}
+td.column-total-annuel {
+  width: 5rem;
+  font-weight: 800;
+  padding: 0.5rem;
+}
+.column-fixe {
+  width: 4rem;
+  background-color: thistle;
+  color: #ffff;
+  padding: 0.5rem;
+}
+
+@media print {
+  .header-print {
+    display: block;
+  }
+  .button-print {
+    display: none;
+  }
+}
+@page {
+  margin: 2rem;
+  size: landscape;
+}
+/* .column-repartition,
+.column-praticien  */
 @media only screen and (max-width: 990px) {
   /* Admin dashboard */
   .menu-item {
@@ -522,28 +729,6 @@ select {
   margin: 0;
 }
 /* Admin dashboard */
-
-table {
-  font-size: 15px;
-}
-th,
-tr,
-td {
-  height: 2.5rem;
-  min-width: 4rem;
-}
-th {
-  font-weight: 400;
-}
-th.title {
-  font-weight: bold;
-}
-tr {
-  text-align: left;
-}
-.vide {
-  background-color: thistle;
-}
 
 /* User dashboard */
 .userInfos-page {

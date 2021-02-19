@@ -7,6 +7,7 @@ import cors from "cors";
 import poleRouter from "./routes/poleRoutes.js";
 import specialiteRouter from "./routes/specialiteRoutes.js";
 import declarationRouter from "./routes/declarationRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/poles", poleRouter);
 app.use("/api/specialites", specialiteRouter);
 app.use("/api/declarations", declarationRouter);
+app.use("/api/users", userRouter);
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Votre serveur a démarré sur le port ${process.env.PORT}`);

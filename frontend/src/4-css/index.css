@@ -1,18 +1,21 @@
 body {
   margin: 0;
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+
   background-color: #282c34;
 }
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none;
 }
 code {
-  font-family: 'Barlow', sans-serif;
+  font-family: "Barlow", sans-serif;
 }
-h1, h2, h3, h4,h6{
+h1,
+h2,
+h3,
+h4,
+h6 {
   font-weight: 400;
 }
-

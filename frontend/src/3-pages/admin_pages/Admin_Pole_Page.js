@@ -11,6 +11,7 @@ import { getOnePole, resetSuccessPole } from "../../2-actions/poleActions";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Notifications, { notify } from "react-notify-toast";
 import tableTest from "./tableTest";
+import GoBack from "../components/GoBack";
 
 export default function Admin_Pole_Page(props) {
   let [compteur, setCompteur] = useState(0);
@@ -49,12 +50,8 @@ export default function Admin_Pole_Page(props) {
         <p className="danger">{error}</p>
       ) : (
         <Fragment>
-          <div className="arrow-header">
-            <Link to={"/dashboard/admin/mes-poles/"}>
-              <IoMdArrowRoundBack className="arrow-back" size={40} />
-            </Link>
-            <h1>{pole.name}</h1>
-          </div>
+          {/*           <GoBack link={"/dashboard/admin"} pageName={"Mon compte"} />
+           */}
           <div className="admin-pole-page-body">
             <AdminPolePageMenu pole={pole} />
             <Route

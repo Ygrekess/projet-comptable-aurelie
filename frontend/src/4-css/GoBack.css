@@ -1,0 +1,14 @@
+.goback-page-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.arrow-back {
+  color: black;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.arrow-back:hover {
+  transform: scale(1.2);
+}

@@ -2,7 +2,7 @@ import Joi from "joi";
 
 const registerValidation = (data) => {
   const schemaRegister = Joi.object({
-    name: Joi.string().min(6).required().messages({
+    lastname: Joi.string().min(6).required().messages({
       "string.base": `Merci de saisir un nom valide.`,
       "string.empty": `Merci de saisir un nom.`,
       "string.min": `Votre nom doit contenir au moins 6 caractères.`,
@@ -21,6 +21,42 @@ const registerValidation = (data) => {
     }),
   });
   return schemaRegister.validate(data);
+};
+
+const updateValidation = (data) => {
+  const schemaUpdate = Joi.object({
+    _id: Joi.string(),
+    lastname: Joi.string(),
+    firstname: Joi.string(),
+    phone: Joi.string(),
+    email: Joi.string().required().email().messages({
+      "string.base": `Merci de saisir une adresse email valide.`,
+      "string.empty": `Merci de saisir votre adresse email.`,
+      "string.email": `Merci de saisir une adresse email valide.`,
+      "any.required": `Merci de saisir votre adresse email.`,
+    }),
+  });
+  return schemaUpdate.validate(data);
+};
+
+const updatePasswordValidation = (data) => {
+  const schemaUpdatePassword = Joi.object({
+    _id: Joi.string(),
+    password: Joi.string().required().messages({
+      "string.empty": `Merci de saisir votre mot de passe.`,
+    }),
+    newpassword1: Joi.string().min(6).required().messages({
+      "string.empty": `Merci de saisir votre nouveau mot de passe.`,
+      "string.min": `Votre nouveau mot de passe doit contenir au moins 6 caractères.`,
+      "any.required": `Merci de saisir votre nouveau mot de passe.`,
+    }),
+    newpassword2: Joi.string().min(6).required().messages({
+      "string.empty": `Merci de confirmer votre mot de passe.`,
+      "string.min": `Votre nouveau mot de passe doit contenir au moins 6 caractères.`,
+      "any.required": `Merci de confirmer votre mot de passe.`,
+    }),
+  });
+  return schemaUpdatePassword.validate(data);
 };
 
 const loginValidation = (data) => {
@@ -114,4 +150,10 @@ const poleValidation = (data) => {
   return schemaRegister.validate(data);
 };
 
-export { registerValidation, loginValidation, poleValidation };
+export {
+  registerValidation,
+  loginValidation,
+  poleValidation,
+  updateValidation,
+  updatePasswordValidation,
+};

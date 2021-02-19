@@ -21,77 +21,62 @@ export default function ModalAddDeclaration({ pole }) {
     const declaration = {
       loyer: {
         total: data.loyer,
-        fixe: data.loyerFixe,
         repartition: data.loyerRep,
       },
       electricite: {
         total: data.electricite,
-        fixe: data.electriciteFixe,
         repartition: data.electriciteRep,
       },
       eau: {
         total: data.eau,
-        fixe: data.eauFixe,
         repartition: data.eauRep,
       },
       fournAdmin: {
         total: data.fournAdmin,
-        fixe: data.fournAdmin,
         repartition: data.fournAdminRep,
       },
       fournEntr: {
         total: data.fournEntr,
-        fixe: data.fournEntrFixe,
         repartition: data.fournEntrRep,
       },
       menage: {
         total: data.menage,
-        fixe: data.menageFixe,
         repartition: data.menageRep,
       },
       assurance: {
         total: data.assurance,
-        fixe: data.assuranceFixe,
         repartition: data.assuranceRep,
       },
       honoraires: {
         total: data.honoraires,
-        fixe: data.honorairesFixe,
         repartition: data.honorairesRep,
       },
       annoncesInsertions: {
         total: data.annoncesInsertions,
-        fixe: data.annoncesInsertionsFixe,
         repartition: data.annoncesInsertionsRep,
       },
       fraisPostaux: {
         total: data.fraisPostaux,
-        fixe: data.fraisPostauxFixe,
         repartition: data.fraisPostauxRep,
       },
       internetTelephone: {
         total: data.internetTelephone,
-        fixe: data.internetTelephoneFixe,
         repartition: data.internetTelephoneRep,
       },
       fraisBancaires: {
         total: data.fraisBancaires,
-        fixe: data.fraisBancairesFixe,
         repartition: data.fraisBancairesRep,
       },
       cfe: {
         total: data.cfe,
-        fixe: data.cfeFixe,
         repartition: data.cfeRep,
       },
       receptionDeplacement: {
         total: data.receptionDeplacement,
-        fixe: data.receptionDeplacementFixe,
         repartition: data.receptionDeplacementRep,
       },
       petitEquipement: {
         total: data.petitEquipement,
-        fixe: data.petitEquipementFixe,
         repartition: data.petitEquipementRep,
       },
     };
@@ -133,14 +118,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="loyerFixe"
-              className={errors.loyerFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="loyerRep">Mode de répartition</label>
             <select
               name="loyerRep"
@@ -166,14 +143,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="electriciteFixe"
-              className={errors.electriciteFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="electriciteRep">Mode de répartition</label>
             <select
               name="electriciteRep"
@@ -195,14 +164,6 @@ export default function ModalAddDeclaration({ pole }) {
             <input
               name="eau"
               className={errors.eau && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="eauFixe"
-              className={errors.eauFixe && "error"}
               ref={register}
             />
           </div>
@@ -233,14 +194,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fournAdminFixe"
-              className={errors.fournAdminFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="fournAdminRep">Mode de répartition</label>
             <select
               name="fournAdminRep"
@@ -263,14 +216,6 @@ export default function ModalAddDeclaration({ pole }) {
             <input
               name="fournEntr"
               className={errors.fournEntr && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fournEntrFixe"
-              className={errors.fournEntrFixe && "error"}
               ref={register}
             />
           </div>
@@ -301,14 +246,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="menageFixe"
-              className={errors.menageFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="menageRep">Mode de répartition</label>
             <select
               name="menageRep"
@@ -335,14 +272,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="assuranceFixe"
-              className={errors.assuranceFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="assuranceRep">Mode de répartition</label>
             <select
               name="assuranceRep"
@@ -358,21 +287,12 @@ export default function ModalAddDeclaration({ pole }) {
             </select>
           </div>
         </div>
-
         <div>
           <div>
             <label>Honoraires (€)</label>
             <input
               name="honoraires"
               className={errors.honoraires && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="honorairesFixe"
-              className={errors.honorairesFixe && "error"}
               ref={register}
             />
           </div>
@@ -403,14 +323,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="annoncesInsertionsFixe"
-              className={errors.annoncesInsertionsFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="annoncesInsertionsRep">Mode de répartition</label>
             <select
               name="annoncesInsertionsRep"
@@ -437,14 +349,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fraisPostauxFixe"
-              className={errors.fraisPostauxFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="fraisPostauxRep">Mode de répartition</label>
             <select
               name="fraisPostauxRep"
@@ -467,14 +371,6 @@ export default function ModalAddDeclaration({ pole }) {
             <input
               name="internetTelephone"
               className={errors.internetTelephone && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="internetTelephoneFixe"
-              className={errors.internetTelephoneFixe && "error"}
               ref={register}
             />
           </div>
@@ -506,14 +402,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="fraisBancairesFixe"
-              className={errors.fraisBancairesFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="fraisBancairesRep">Mode de répartition</label>
             <select
               name="fraisBancairesRep"
@@ -537,14 +425,6 @@ export default function ModalAddDeclaration({ pole }) {
               name="cfe"
               className={errors.cfe && "error"}
               defaultValue={""}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="cfeFixe"
-              className={errors.cfeFixe && "error"}
               ref={register}
             />
           </div>
@@ -576,14 +456,6 @@ export default function ModalAddDeclaration({ pole }) {
             />
           </div>
           <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="receptionDeplacementFixe"
-              className={errors.receptionDeplacementFixe && "error"}
-              ref={register}
-            />
-          </div>
-          <div>
             <label htmlFor="receptionDeplacementRep">Mode de répartition</label>
             <select
               name="receptionDeplacementRep"
@@ -607,14 +479,6 @@ export default function ModalAddDeclaration({ pole }) {
               name="petitEquipement"
               className={errors.petitEquipement && "error"}
               defaultValue={""}
-              ref={register}
-            />
-          </div>
-          <div>
-            <label>Dont fixe (€)</label>
-            <input
-              name="petitEquipementFixe"
-              className={errors.petitEquipementFixe && "error"}
               ref={register}
             />
           </div>

@@ -1,0 +1,94 @@
+/* User infos, User shipping, User order */
+.user-infos-component {
+  height: auto;
+  width: 50rem;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: auto;
+}
+.user-infos-component form {
+  height: auto;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* .user-infos-component form div {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  width: 40%;
+} */
+.user-infos-component label {
+  text-align: left;
+}
+.user-infos-component input {
+  height: 3rem;
+  width: auto;
+  margin-top: 0.5rem;
+  font-size: 18px;
+  color: rgb(34, 32, 32);
+  outline: none;
+}
+.form-user-infos {
+  display: flex;
+}
+.form-user-infos h2 {
+  width: 100%;
+}
+.form-user-infos div {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  width: 40%;
+}
+.form-update-password {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(225, 230, 230, 0.445);
+  margin-bottom: 5rem;
+}
+.form-update-password div {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  width: 50%;
+}
+.form-button-update-password,
+.form-button-user-infos {
+  width: 100%;
+  min-width: 25rem;
+}
+.form-button-update-password button,
+.form-button-user-infos button {
+  width: 100%;
+  height: 3rem;
+  margin: auto;
+  background-color: orangered;
+  font: 400 25px "Barlow", sans-serif;
+  color: #ffff;
+  border: none;
+  cursor: pointer;
+  transition: 0.5s;
+  outline: none;
+}
+.form-button-update-password button:hover,
+.form-button-user-infos button:hover {
+  transform: scale(1.02);
+  background-color: #e73e21;
+}
+
+@media only screen and (max-width: 990px) {
+  .user-infos-component form {
+    width: 100%;
+  }
+  .user-infos-component form div {
+    width: 80%;
+  }
+}
